@@ -1,0 +1,12 @@
+{
+  "name": "Prakriti & Chrono-Diet",
+  "short_name": "Prakriti Diet",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f8f2",
+  "theme_color": "#176b4d",
+  "description": "Bilingual wellness education around Prakriti, food timing and seasons.",
+  "icons": [
+    {"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
