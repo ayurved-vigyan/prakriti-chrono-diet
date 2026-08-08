@@ -1,472 +1,433 @@
 <!doctype html>
-<html lang="hi">
+<html lang="hi" data-theme="light">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#176b4d">
-  <meta name="description" content="Prakriti & Chrono-Diet — प्रकृति, भोजन के समय और ऋतु संबंधी सामान्य wellness education.">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <title>Prakriti & Chrono-Diet</title>
-  <style>
-    :root{
-      --bg:#f4f8f2; --surface:#fff; --surface2:#edf5ef; --text:#10231b;
-      --muted:#5c6f66; --green:#176b4d; --green2:#23845e; --blue:#205aa7;
-      --cream:#fff8e9; --border:#dce8df; --shadow:0 12px 35px rgba(16,35,27,.08);
-      --radius:22px; --max:1160px;
-    }
-    [data-theme="white"]{--bg:#fff;--surface:#fff;--surface2:#f7f9f8;--text:#111816;--muted:#5f6965;--green:#126446;--green2:#1f7d59;--blue:#245b9d;--cream:#fffaf0;--border:#e4e9e6;--shadow:0 10px 28px rgba(0,0,0,.06)}
-    [data-theme="dark"]{--bg:#090d0b;--surface:#111814;--surface2:#17211b;--text:#f2f7f3;--muted:#aebbb4;--green:#42b77e;--green2:#5ac88e;--blue:#6ca4ee;--cream:#252117;--border:#29352f;--shadow:0 14px 38px rgba(0,0,0,.3)}
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6}
-    button,a{font:inherit}
-    a{color:inherit;text-decoration:none}
-    .container{width:min(calc(100% - 32px),var(--max));margin:auto}
-    header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-    .nav{height:72px;display:flex;align-items:center;gap:20px}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800;white-space:nowrap}
-    .logo{width:38px;height:38px;border-radius:12px;background:var(--green);display:grid;place-items:center;box-shadow:var(--shadow)}
-    .logo svg{width:22px}
-    nav{display:flex;gap:22px;margin-left:auto}
-    nav a{font-size:14px;color:var(--muted)}
-    nav a:hover{color:var(--green)}
-    .controls{display:flex;align-items:center;gap:8px}
-    .control{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:999px;padding:8px 11px;cursor:pointer}
-    .cta{border:0;background:var(--green);color:white;border-radius:999px;padding:12px 18px;font-weight:750;cursor:pointer;box-shadow:0 8px 20px color-mix(in srgb,var(--green) 25%,transparent)}
-    .cta:hover{background:var(--green2);transform:translateY(-1px)}
-    .menu{display:none}
-    .hero{padding:82px 0 70px;overflow:hidden}
-    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:45px;align-items:center}
-    .eyebrow{color:var(--blue);font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
-    h1{font-size:clamp(46px,6vw,78px);line-height:.98;letter-spacing:-.055em;margin:14px 0 22px}
-    h1 span{color:var(--green)}
-    .lead{font-size:18px;color:var(--muted);max-width:650px}
-    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
-    .secondary{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:999px;padding:12px 18px;cursor:pointer;font-weight:700}
-    .note{font-size:13px;color:var(--muted);margin-top:14px}
-    .visual-wrap{min-height:410px;display:grid;place-items:center;position:relative}
-    .orb{width:min(360px,72vw);aspect-ratio:1;border-radius:48% 52% 45% 55%;background:radial-gradient(circle at 30% 28%,#d9f2df 0 8%,transparent 9%),linear-gradient(145deg,var(--green),#0d3e2d);box-shadow:inset -28px -25px 60px rgba(0,0,0,.22),0 30px 70px rgba(23,107,77,.2);transform:rotateX(10deg) rotateY(-18deg);animation:float 6s ease-in-out infinite}
-    .orb:before,.orb:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.38);border-radius:50%;inset:14%;transform:rotate(35deg)}
-    .orb:after{inset:25%;transform:rotate(-45deg) scaleX(.72)}
-    .leaf{position:absolute;width:95px;height:145px;border-radius:100% 0 100% 0;background:linear-gradient(135deg,#b8dd75,#f0c75d);transform:rotate(35deg);top:22%;left:29%;box-shadow:8px 10px 20px rgba(0,0,0,.12)}
-    .leaf:after{content:"";position:absolute;width:2px;height:120px;background:rgba(40,80,45,.35);left:48%;top:12%;transform:rotate(-20deg)}
-    .orbit{position:absolute;width:440px;aspect-ratio:1;border:1px solid color-mix(in srgb,var(--blue) 30%,transparent);border-radius:50%;animation:spin 18s linear infinite}
-    .badge{position:absolute;bottom:26px;left:10%;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);padding:13px 16px;border-radius:16px;font-size:13px}
-    @keyframes float{0%,100%{transform:rotateX(10deg) rotateY(-18deg) translateY(0)}50%{transform:rotateX(14deg) rotateY(-12deg) translateY(-12px)}}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    section{padding:72px 0}
-    .section-head{display:flex;justify-content:space-between;gap:25px;align-items:end;margin-bottom:26px}
-    h2{font-size:clamp(30px,4vw,48px);line-height:1.08;letter-spacing:-.035em;margin:8px 0}
-    .muted{color:var(--muted)}
-    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .grid6{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);transition:.25s}
-    .card:hover{transform:translateY(-4px)}
-    .icon{width:52px;height:52px;border-radius:16px;background:var(--surface2);display:grid;place-items:center;font-size:26px;margin-bottom:20px}
-    .vata .icon{background:#e5f4ea}.pitta .icon{background:#fff1d5}.kapha .icon{background:#e2effb}
-    .chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
-    .chip{border:1px solid var(--border);border-radius:999px;padding:5px 9px;font-size:12px;color:var(--muted)}
-    .chrono{display:grid;grid-template-columns:.8fr 1.2fr;gap:30px;align-items:center}
-    .clock{width:min(430px,90vw);aspect-ratio:1;border-radius:50%;margin:auto;position:relative;background:conic-gradient(from 0deg,#f4c85e 0 25%,#6fc68d 25% 50%,#f2a56e 50% 75%,#607fae 75% 100%);box-shadow:inset 0 0 0 24px var(--surface),inset 0 0 0 26px var(--border)}
-    .clock-center{position:absolute;inset:24%;border-radius:50%;background:var(--surface);display:grid;place-items:center;text-align:center;padding:25px;box-shadow:var(--shadow)}
-    .clock button{position:absolute;border:0;background:var(--surface);color:var(--text);width:86px;height:86px;border-radius:50%;box-shadow:var(--shadow);font-weight:800;cursor:pointer}
-    .c1{top:5%;left:42%}.c2{right:5%;top:42%}.c3{bottom:5%;left:42%}.c4{left:5%;top:42%}
-    .season-section{background:var(--green);color:white}
-    .season-section .muted{color:rgba(255,255,255,.78)}
-    .season-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.28);box-shadow:none}
-    .season-card:hover{background:rgba(255,255,255,.15)}
-    .season-card .icon{background:rgba(255,255,255,.12)}
-    .food-preview{background:var(--surface2)}
-    .food-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-    .food{padding:18px;text-align:center}
-    .food .icon{margin:0 auto 12px}
-    .disclaimer{background:var(--cream);border:1px solid #ecd79c;padding:22px;border-radius:20px}
-    footer{padding:45px 0;border-top:1px solid var(--border)}
-    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:30px}
-    .small{font-size:12px;color:var(--muted)}
-    .drawer{display:none}
-    .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;place-items:center;z-index:100;padding:20px}
-    .modal.open{display:grid}
-    .modal-card{background:var(--surface);color:var(--text);width:min(680px,100%);max-height:90vh;overflow:auto;border-radius:24px;padding:30px;box-shadow:0 20px 40px rgba(0,0,0,.2)}
-    .qbar{height:8px;background:var(--surface2);border-radius:99px;overflow:hidden;margin:15px 0}.qbar>i{display:block;height:100%;background:var(--green);width:0;transition:width 0.3s ease}
-    .options{display:grid;gap:10px;margin:18px 0}.option{padding:14px;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:15px;text-align:left;cursor:pointer;transition:all 0.2s}.option:hover{border-color:var(--green)}.option.selected{border-color:var(--green);background:color-mix(in srgb,var(--green) 10%,var(--surface));font-weight:600}
-    
-    /* Result card styling */
-    .result-box{text-align:center;padding:10px 0}
-    .result-icon{font-size:64px;margin-bottom:15px}
-    .result-title{font-size:28px;font-weight:800;color:var(--green);margin-bottom:10px}
-    .result-desc{font-size:16px;color:var(--muted);margin-bottom:20px;line-height:1.7}
-    .result-tip{background:var(--surface2);padding:16px;border-radius:16px;text-align:left;margin-bottom:20px;border-left:4px solid var(--green)}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b6b45">
+<meta name="description" content="प्रकृति एवं क्रोनो-डाइट — द्विभाषी शैक्षिक wellness platform for Prakriti, daily rhythm and six seasons.">
+<meta property="og:title" content="Prakriti & Chrono-Diet — अपनी प्रकृति समझें">
+<meta property="og:description" content="द्विभाषी शैक्षिक प्रकृति, दैनिक लय और छह ऋतुओं की जानकारी।">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index,follow">
+<link rel="manifest" href="manifest.webmanifest">
+<title>प्रकृति & क्रोनो-डाइट | Prakriti & Chrono-Diet</title>
+<style>
+:root{
+ --green:#0b6b45;--green2:#159b65;--blue:#2478c8;--cream:#fffdf6;--ink:#15382c;--muted:#60756b;
+ --line:#dce9df;--card:#fff;--soft:#eef8f0;--gold:#d7a83c;--danger:#b54a3a;
+ --shadow:0 16px 50px rgba(11,107,69,.10);--radius:24px
+}
+html[data-theme="white"]{--cream:#fff;--soft:#f7faf8}
+html[data-theme="black"]{--cream:#09130f;--ink:#f2fff8;--muted:#b1c7bc;--line:#294238;--card:#11211a;--soft:#142c23;--shadow:0 18px 60px rgba(0,0,0,.35)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Noto Sans Devanagari",sans-serif}
+button,a{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:auto;padding:0 22px}
+header{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--cream) 92%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav{min-height:72px;display:flex;align-items:center;gap:20px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;white-space:nowrap}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(145deg,#0b6b45,#2dbb7d);display:grid;place-items:center;color:#fff;box-shadow:var(--shadow)}
+nav{display:flex;gap:18px;margin-left:auto;color:var(--muted);font-size:14px}nav a:hover{color:var(--green)}
+.controls{display:flex;gap:7px;align-items:center}.btn,.iconbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:10px 14px}.primary{background:var(--green);border-color:var(--green);color:#fff;font-weight:800}.iconbtn{padding:9px 11px}.lang{font-weight:800}
+.hero{padding:72px 0 64px;background:radial-gradient(circle at 78% 22%,#dff7e8 0,transparent 34%),linear-gradient(135deg,var(--cream),var(--soft))}
+.heroGrid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}.eyebrow{color:var(--blue);font-size:11px;letter-spacing:.16em;font-weight:900}.hero h1{font:clamp(46px,6vw,78px)/.98 Georgia,serif;letter-spacing:-.045em;margin:14px 0}.hero h1 span{color:var(--green)}.hero p{font-size:18px;line-height:1.75;color:var(--muted);max-width:670px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin:25px 0}.trust{font-size:12px;color:var(--muted)}
+.visual{min-height:440px;display:grid;place-items:center;position:relative}.orb{width:340px;height:340px;border-radius:50%;background:radial-gradient(circle at 50% 38%,#d6f8e7,#32936f 53%,#0b6b45);box-shadow:0 35px 80px rgba(11,107,69,.28);animation:float 5s ease-in-out infinite}.body{position:absolute;font-size:120px;filter:drop-shadow(0 15px 14px #15382c55)}.dosha{position:absolute;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px;padding:12px 16px;font-weight:800}.v{top:25px;left:8%}.p{right:0;top:44%}.k{bottom:10%;left:10%}@keyframes float{50%{transform:translateY(-10px) scale(1.015)}}
+section{padding:70px 0}.sectionHead{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:25px}.sectionHead h2{font:40px/1.08 Georgia,serif;margin:7px 0}.sectionHead p{color:var(--muted);max-width:650px;line-height:1.7}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:25px;box-shadow:var(--shadow);position:relative;overflow:hidden}.card:after{content:"";position:absolute;width:120px;height:120px;border-radius:50%;right:-45px;bottom:-50px;background:var(--soft)}.bigIcon{font-size:48px}.card h3{font-size:23px;margin:12px 0 8px}.card p{color:var(--muted);line-height:1.7}.blue{background:linear-gradient(145deg,#edf7ff,var(--card))}.gold{background:linear-gradient(145deg,#fff7df,var(--card))}.green{background:linear-gradient(145deg,#e9faef,var(--card))}
+.chrono{background:var(--soft)}.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.timeCard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:flex;gap:16px;box-shadow:var(--shadow)}.timeBadge{min-width:82px;height:112px;border-radius:18px;background:#e5f5eb;color:var(--green);display:grid;place-items:center;text-align:center;font-weight:900}.time{font-size:10px;letter-spacing:.12em;color:var(--blue);font-weight:900}.timeCard h3{font:22px Georgia,serif;margin:8px 0}.timeCard p{margin:0;color:var(--muted);line-height:1.6}
+.seasons{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.season{background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);transition:.2s}.season:hover{transform:translateY(-5px);border-color:var(--green)}.seasonArt{height:145px;background:linear-gradient(145deg,#e9f8ef,#fff7df);display:grid;place-items:center;font-size:70px}.seasonBody{padding:20px}.seasonBody h3{margin:0 0 5px;font-size:22px}.seasonBody small{color:var(--muted)}.seasonBody p{color:var(--muted);line-height:1.6}.read{margin-top:12px}
+.ad{margin:26px 0;border:1px dashed #cbd8cf;border-radius:18px;min-height:90px;display:grid;place-items:center;color:#84958c;font-size:12px;letter-spacing:.08em;background:var(--card)}
+.cta{background:linear-gradient(135deg,#e8f8e9,#fff5d8);border:1px solid var(--line);border-radius:30px;padding:42px;display:flex;justify-content:space-between;align-items:center;gap:28px}.cta h2{font:38px Georgia,serif;margin:0 0 10px}.cta p{color:var(--muted);line-height:1.7}
+footer{margin-top:20px;background:#073b29;color:#e3f7ec;padding:52px 0}.footerGrid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:30px}.footerTitle{font-weight:900;font-size:18px}.footer p{color:#b9d5c8;line-height:1.7}.footer a{display:block;color:#cfe5dc;margin:9px 0;font-size:14px}.footer a:hover{color:#fff}.copy{border-top:1px solid #2a5b49;margin-top:30px;padding-top:18px;color:#a9c8bb;font-size:12px;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.modal{position:fixed;inset:0;background:rgba(4,20,13,.72);display:none;place-items:center;padding:18px;z-index:100}.modal.show{display:grid}.modalBox{width:min(920px,100%);max-height:92vh;overflow:auto;background:var(--card);border-radius:28px;box-shadow:0 40px 100px #0008;padding:28px}.modalTop{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}.modalBox h2{font:34px Georgia,serif;margin:8px 0 10px}.modalBox h3{font-size:21px;margin-top:28px}.modalText{color:var(--muted);line-height:1.85;font-size:16px}.articleHero{display:grid;grid-template-columns:180px 1fr;gap:22px;align-items:center;background:var(--soft);border:1px solid var(--line);border-radius:24px;padding:18px;margin:18px 0}.articleArt{height:160px;border-radius:18px;display:grid;place-items:center;font-size:88px;background:linear-gradient(145deg,#dff6e8,#fff0c7)}.articleMeta{color:var(--blue);font-size:12px;font-weight:900;letter-spacing:.1em}.tagRow{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.tag{padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:12px}.progress{height:7px;background:var(--line);border-radius:99px;overflow:hidden;margin:15px 0}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--blue))}.option{width:100%;text-align:left;padding:16px;margin:7px 0;border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink)}.option.selected{border:2px solid var(--green);background:var(--soft)}.resultScore{font-size:50px;font-weight:900;color:var(--green)}.bar{height:14px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;border-radius:99px}.share{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.policy h3{margin-top:24px}.policy li{margin:8px 0;line-height:1.7;color:var(--muted)}
+@media(max-width:980px){nav{display:none}.heroGrid{grid-template-columns:1fr}.cards,.timeline,.seasons{grid-template-columns:1fr 1fr}.footerGrid{grid-template-columns:1fr 1fr}.cta{flex-direction:column;align-items:flex-start}}
+@media(max-width:560px){.wrap{padding:0 16px}.controls .themeLabel{display:none}.hero{padding-top:42px}.hero h1{font-size:44px}.visual{min-height:330px}.orb{width:270px;height:270px}.body{font-size:92px}.cards,.timeline,.seasons,.footerGrid{grid-template-columns:1fr}.sectionHead{display:block}.sectionHead h2{font-size:33px}.timeCard{align-items:flex-start}.articleHero{grid-template-columns:1fr}.articleArt{height:130px}.modalBox{padding:20px}}
 
-    @media(max-width:850px){
-      nav,.controls .cta{display:none}.menu{display:block}.hero{padding-top:50px}.hero-grid,.chrono{grid-template-columns:1fr}.visual-wrap{min-height:350px}.grid3{grid-template-columns:1fr}.grid6{grid-template-columns:repeat(2,1fr)}.food-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr 1fr}
-      .drawer{position:absolute;top:72px;left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);padding:16px;display:none}.drawer.open{display:grid;gap:10px}.drawer a{padding:12px;border-radius:12px}.drawer a:hover{background:var(--surface2)}
-    }
-    @media(max-width:520px){
-      .container{width:min(calc(100% - 22px),var(--max))}.grid6{grid-template-columns:1fr}.food-grid{grid-template-columns:1fr 1fr}.footer-grid{grid-template-columns:1fr}h1{font-size:48px}.orb{width:290px}.orbit{width:330px}.clock{width:320px}.clock button{width:70px;height:70px;font-size:12px}
-    }
-  </style>
+.aiModeIntro{display:grid;grid-template-columns:110px 1fr;gap:18px;align-items:center;background:linear-gradient(135deg,var(--soft),var(--cream));border:1px solid var(--line);border-radius:24px;padding:18px;margin:16px 0 20px}
+.aiOrb{width:100px;height:100px;border-radius:50%;display:grid;place-items:center;font-size:48px;background:radial-gradient(circle at 32% 28%,#fff 0 8%,#b9efd0 9% 20%,#0b6b45 45%,#15382c 100%);box-shadow:inset -10px -12px 25px #0003,0 12px 30px #0b6b4533;animation:floatAI 4s ease-in-out infinite}
+@keyframes floatAI{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-5px) rotate(3deg)}}
+.aiQuestion{font-size:24px!important;line-height:1.35}
+.aiBadge{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--soft);padding:7px 10px;border-radius:999px;font-size:12px;font-weight:800;color:var(--green)}
+.aiMeta{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.aiChoice{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:center;width:100%;text-align:left;padding:14px;margin:8px 0;border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--ink);cursor:pointer;transition:.2s}
+.aiChoice:hover{transform:translateY(-1px);border-color:var(--green2);box-shadow:0 8px 20px #0b6b4512}
+.aiChoice.selected{border:2px solid var(--green);background:var(--soft)}
+.aiChoiceIcon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:var(--soft);font-size:22px}
+.confidenceRing{width:130px;height:130px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--green) var(--confidence,70%),var(--line) 0);position:relative}
+.confidenceRing:after{content:"";position:absolute;inset:12px;border-radius:50%;background:var(--card)}
+.confidenceRing b{position:relative;z-index:1;font-size:25px}
+.elementGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+.elementCard{border:1px solid var(--line);border-radius:20px;padding:14px;background:var(--card);text-align:center;overflow:hidden}
+.elementOrb{width:74px;height:74px;margin:0 auto 10px;border-radius:50%;display:grid;place-items:center;font-size:34px;box-shadow:inset -8px -8px 16px #0002,0 10px 24px #0001;transform:perspective(300px) rotateX(8deg)}
+.elementOrb.air{background:radial-gradient(circle at 30% 25%,#fff,#b8dcff 35%,#2478c8 70%,#123b68)}
+.elementOrb.fire{background:radial-gradient(circle at 30% 25%,#fff7c7,#ffd15c 35%,#d77b22 68%,#8b3d14)}
+.elementOrb.water{background:radial-gradient(circle at 30% 25%,#efffff,#9de7d0 35%,#159b65 68%,#0b5d43)}
+.aiResultGrid{display:grid;grid-template-columns:180px 1fr;gap:20px;align-items:center;background:var(--soft);border:1px solid var(--line);border-radius:24px;padding:18px}
+@media(max-width:560px){.aiModeIntro{grid-template-columns:1fr}.aiOrb{margin:auto}.elementGrid{grid-template-columns:1fr}.aiResultGrid{grid-template-columns:1fr;text-align:center}.confidenceRing{margin:auto}}
+</style>
 </head>
 <body>
-<header>
-  <div class="container nav">
-    <a class="brand" href="#home"><span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 21V9"/><path d="M12 12C7 12 4 9 4 4c5 0 8 3 8 8Z"/><path d="M12 15c5 0 8-3 8-8-5 0-8 3-8 8Z"/></svg></span><span>Prakriti & Chrono-Diet</span></a>
-    <nav>
-      <a href="#home" data-i18n="navHome">होम</a><a href="#how" data-i18n="navHow">कैसे काम करता है</a><a href="#food" data-i18n="navFood">भोजन</a><a href="#seasons" data-i18n="navSeason">ऋतु</a><a href="#faq" data-i18n="navFaq">सामान्य प्रश्न</a>
-    </nav>
-    <div class="controls">
-      <button class="control" id="langBtn" aria-label="Change language">हिंदी</button>
-      <button class="control" id="themeBtn" aria-label="Change theme">☀</button>
-      <button class="cta" id="startBtn" data-i18n="start">विश्लेषण शुरू करें →</button>
-      <button class="control menu" id="menuBtn" aria-label="Menu">☰</button>
-    </div>
-  </div>
-  <div class="drawer" id="drawer">
-    <a href="#home" data-i18n="navHome">होम</a><a href="#how" data-i18n="navHow">कैसे काम करता है</a><a href="#food" data-i18n="navFood">भोजन</a><a href="#seasons" data-i18n="navSeason">ऋतु</a><a href="#faq" data-i18n="navFaq">सामान्य प्रश्न</a>
-    <div style="display:flex;gap:8px"><button class="control" id="langBtn2">हिंदी</button><button class="control" id="themeBtn2">☀</button></div>
-  </div>
-</header>
+<header><div class="wrap nav">
+<a class="brand" href="#top"><span class="logo">🌿</span><span data-i18n="brand">प्रकृति & क्रोनो-डाइट</span></a>
+<nav><a href="#prakriti" data-i18n="navPrakriti">प्रकृति</a><a href="#chrono" data-i18n="navChrono">क्रोनो-डाइट</a><a href="#seasons" data-i18n="navSeasons">6 ऋतुएँ</a><a href="#how" data-i18n="navHow">कैसे काम करता है</a></nav>
+<div class="controls">
+<button class="btn lang" id="langBtn" aria-label="Change language">EN</button>
+<button class="iconbtn" onclick="setTheme('white')" title="White theme">⚪</button>
+<button class="iconbtn" onclick="setTheme('light')" title="Light theme">🌿</button>
+<button class="iconbtn" onclick="setTheme('black')" title="Black theme">⚫</button>
+<button class="btn primary" onclick="openAnalyzer()" data-i18n="start">प्रकृति जानें →</button>
+</div></div></header>
 
-<main id="home">
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <div class="eyebrow" data-i18n="eyebrow">प्रकृति • समय • ऋतु</div>
-        <h1 data-i18n-html="heroTitle">आपकी <span>प्रकृति</span> क्या कहती है?</h1>
-        <p class="lead" data-i18n="heroLead">कुछ आसान सवालों के जवाब दें और अपनी प्रकृति, भोजन के समय और मौसम से जुड़ी सामान्य wellness जानकारी को समझें।</p>
-        <div class="actions"><button class="cta" id="heroStart" data-i18n="startFree">निःशुल्क विश्लेषण शुरू करें →</button><a class="secondary" href="#how" data-i18n="howBtn">यह कैसे काम करता है?</a></div>
-        <div class="note" data-i18n="note">शैक्षिक wellness अनुभव • चिकित्सा निदान नहीं</div>
-      </div>
-      <div class="visual-wrap" aria-label="Animated nature balance visual">
-        <div class="orbit"></div><div class="orb"><div class="leaf"></div></div>
-        <div class="badge">🌿 <span data-i18n="badge">संतुलन को समझने की शुरुआत</span></div>
-      </div>
-    </div>
-  </section>
+<main id="top">
+<section class="hero"><div class="wrap heroGrid">
+<div><div class="eyebrow" data-i18n="eyebrow">EVERYDAY WELLNESS · प्रकृति · समय · ऋतु</div>
+<h1 data-i18n-html="heroTitle">अपनी प्रकृति को जानें,<br><span>स्वस्थ जीवन समझें।</span></h1>
+<p data-i18n="heroText">सरल प्रश्नों के माध्यम से पारंपरिक प्रकृति की अवधारणा को समझें और भोजन, दिनचर्या तथा ऋतु के बारे में शैक्षिक जानकारी पाएँ।</p>
+<div class="actions"><button class="btn primary" onclick="openAnalyzer()" data-i18n="heroCta">🌿 अपनी प्रकृति का परीक्षण शुरू करें</button><button class="btn" onclick="openSmartGuide()">✨ Free AI प्रकृति संवाद</button><a class="btn" href="#how" data-i18n="howBtn">यह कैसे काम करता है?</a></div>
+<div class="trust" data-i18n="trust">🔒 कोई खाता आवश्यक नहीं · लगभग 3 मिनट · शैक्षिक wellness guidance</div></div>
+<div class="visual"><div class="orb"></div><div class="body">🧘</div><div class="dosha v">🌬️ वात · गति</div><div class="dosha p">🔥 पित्त · ऊर्जा</div><div class="dosha k">💧 कफ · स्थिरता</div></div>
+</div></section>
 
-  <section id="how">
-    <div class="container">
-      <div class="section-head"><div><div class="eyebrow" data-i18n="approach">सरल प्रक्रिया</div><h2 data-i18n="howTitle">तीन आसान चरण</h2></div></div>
-      <div class="grid3">
-        <article class="card"><div class="icon">📝</div><h3 data-i18n="step1">1. आसान सवाल</h3><p class="muted" data-i18n="step1d">कुछ सरल wellness प्रश्नों के उत्तर दें।</p></article>
-        <article class="card"><div class="icon">🌿</div><h3 data-i18n="step2">2. प्रकृति प्रोफाइल</h3><p class="muted" data-i18n="step2d">वात, पित्त और कफ के बारे में शैक्षिक संकेत देखें।</p></article>
-        <article class="card"><div class="icon">⏰</div><h3 data-i18n="step3">3. समय और ऋतु</h3><p class="muted" data-i18n="step3d">भोजन के समय और मौसम के संदर्भ को समझें।</p></article>
-      </div>
-    </div>
-  </section>
+<section id="prakriti"><div class="wrap"><div class="sectionHead"><div><div class="eyebrow">THREE LENSES</div><h2 data-i18n="doshaTitle">तीनों प्रकृतियाँ — अपना स्वभाव जानें</h2></div><p data-i18n="doshaIntro">यह पारंपरिक आयुर्वेदिक अवधारणाओं को समझने का शैक्षिक माध्यम है, चिकित्सा निदान नहीं।</p></div>
+<div class="cards">
+<article class="card blue"><div class="bigIcon">🌬️</div><h3>वात <small>(Vata)</small></h3><p data-i18n="vataShort">गति, हल्कापन, रचनात्मकता और परिवर्तन से जुड़े पारंपरिक गुणों को समझें।</p><button class="btn" onclick="openArticle('vata')" data-i18n="readMore">विस्तार से पढ़ें →</button></article>
+<article class="card gold"><div class="bigIcon">🔥</div><h3>पित्त <small>(Pitta)</small></h3><p data-i18n="pittaShort">ऊर्जा, परिवर्तन, पाचन और तीक्ष्णता से जुड़े पारंपरिक गुणों को समझें।</p><button class="btn" onclick="openArticle('pitta')" data-i18n="readMore">विस्तार से पढ़ें →</button></article>
+<article class="card green"><div class="bigIcon">💧</div><h3>कफ <small>(Kapha)</small></h3><p data-i18n="kaphaShort">स्थिरता, पोषण, धैर्य और भारीपन से जुड़े पारंपरिक गुणों को समझें।</p><button class="btn" onclick="openArticle('kapha')" data-i18n="readMore">विस्तार से पढ़ें →</button></article>
+</div></div></section>
 
-  <section>
-    <div class="container">
-      <div class="section-head"><div><div class="eyebrow">PRAKRITI</div><h2 data-i18n="prakritiTitle">अपनी प्रकृति की तीन भाषाएँ</h2><p class="muted" data-i18n="prakritiLead">इन्हें निदान नहीं, पारंपरिक wellness अवधारणाओं को समझने के एक lens की तरह देखें।</p></div></div>
-      <div class="grid3">
-        <article class="card vata"><div class="icon">🌬️</div><h3>Vata <span class="muted">वात</span></h3><p class="muted" data-i18n="vata">गतिशीलता, परिवर्तन और लय से जुड़ी पारंपरिक अवधारणा।</p><div class="chips"><span class="chip">वायु</span><span class="chip">गतिशील</span><span class="chip">हल्का</span></div></article>
-        <article class="card pitta"><div class="icon">☀️</div><h3>Pitta <span class="muted">पित्त</span></h3><p class="muted" data-i18n="pitta">ऊष्मा, परिवर्तन और ऊर्जा से जुड़ी पारंपरिक अवधारणा।</p><div class="chips"><span class="chip">अग्नि</span><span class="chip">ऊर्जा</span><span class="chip">तीक्ष्ण</span></div></article>
-        <article class="card kapha"><div class="icon">💧</div><h3>Kapha <span class="muted">कफ</span></h3><p class="muted" data-i18n="kapha">स्थिरता, पोषण और आधार से जुड़ी पारंपरिक अवधारणा।</p><div class="chips"><span class="chip">जल</span><span class="chip">पृथ्वी</span><span class="chip">स्थिर</span></div></article>
-      </div>
-    </div>
-  </section>
+<section class="chrono" id="chrono"><div class="wrap"><div class="sectionHead"><div><div class="eyebrow">CHRONO-DIET</div><h2 data-i18n="chronoTitle">दिन की भी अपनी लय होती है।</h2></div><p data-i18n="chronoIntro">समय को कठोर नियम नहीं, बल्कि भोजन, नींद और दिनचर्या को समझने के एक शैक्षिक lens की तरह देखें।</p></div>
+<div class="timeline">
+<article class="timeCard"><div class="timeBadge">06:00<br>—<br>10:00</div><div><div class="time">MORNING</div><h3>🌅 <span data-i18n="morningTitle">सुबह · धीरे शुरू करें</span></h3><p data-i18n="morningText">जल, हल्की गतिविधि और दिन की शांत शुरुआत के लिए समय निकालें।</p><button class="btn" onclick="openArticle('chrono')" data-i18n="readMore">विस्तार से पढ़ें →</button></div></article>
+<article class="timeCard"><div class="timeBadge">10:00<br>—<br>14:00</div><div><div class="time">AFTERNOON</div><h3>☀️ <span data-i18n="noonTitle">दोपहर · संतुलित मुख्य भोजन</span></h3><p data-i18n="noonText">दिन के बीच में नियमित और संतुलित भोजन के लिए पर्याप्त समय रखें।</p><button class="btn" onclick="openArticle('chrono')" data-i18n="readMore">विस्तार से पढ़ें →</button></div></article>
+<article class="timeCard"><div class="timeBadge">18:00<br>—<br>22:00</div><div><div class="time">EVENING</div><h3>🌙 <span data-i18n="nightTitle">रात · धीरे-धीरे शांत हों</span></h3><p data-i18n="nightText">शाम को गतिविधियाँ कम करें और आराम तथा नींद के लिए तैयार हों।</p><button class="btn" onclick="openArticle('chrono')" data-i18n="readMore">विस्तार से पढ़ें →</button></div></article>
+</div><div class="ad" aria-label="Advertisement placeholder">ADVERTISEMENT · RESERVED SPACE</div></div></section>
 
-  <section class="food-preview" id="chrono">
-    <div class="container chrono">
-      <div>
-        <div class="eyebrow">CHRONO-DIET</div>
-        <h2 data-i18n="chronoTitle">सिर्फ क्या खाना ही नहीं, कब खाना भी महत्वपूर्ण हो सकता है।</h2>
-        <p class="muted" data-i18n="chronoLead">दिन के अलग समयों को एक educational wellness lens से explore करें।</p>
-        <button class="secondary" id="clockReset" data-i18n="clockBtn">सुबह से शुरू करें</button>
-      </div>
-      <div>
-        <div class="clock" id="clock">
-          <button class="c1" data-time="morning">🌅<br><span data-i18n="morning">सुबह</span></button>
-          <button class="c2" data-time="afternoon">☀️<br><span data-i18n="afternoon">दोपहर</span></button>
-          <button class="c3" data-time="evening">🌇<br><span data-i18n="evening">शाम</span></button>
-          <button class="c4" data-time="night">🌙<br><span data-i18n="night">रात</span></button>
-          <div class="clock-center"><div><strong id="clockTitle">सुबह</strong><p class="small" id="clockText">दिन की शुरुआत को सरल और सहज रखें।</p></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
+<section id="seasons"><div class="wrap"><div class="sectionHead"><div><div class="eyebrow">SEASONAL WELLNESS</div><h2 data-i18n="seasonTitle">छह ऋतुएँ — हर मौसम की अपनी कहानी</h2></div><p data-i18n="seasonIntro">हर कार्ड खोलकर उस ऋतु की परंपरागत समझ, प्रकृति, भोजन-संबंधी सामान्य विचार और दैनिक जीवन के बारे में विस्तार से पढ़ें।</p></div>
+<div class="seasons" id="seasonGrid"></div><div class="ad">ADVERTISEMENT · RESERVED SPACE</div></div></section>
 
-  <section class="season-section" id="seasons">
-    <div class="container">
-      <div class="section-head"><div><div class="eyebrow" style="color:#f7d777">SEASONAL WELLNESS</div><h2 data-i18n="seasonTitle">छह ऋतुएँ, छह अलग संदर्भ</h2><p class="muted" data-i18n="seasonLead">भारतीय ऋतु-चक्र को एक सरल wellness education lens से explore करें।</p></div></div>
-      <div class="grid6" id="seasonGrid"></div>
-    </div>
-  </section>
-
-  <section id="food">
-    <div class="container">
-      <div class="section-head"><div><div class="eyebrow">FOOD EXPLORER</div><h2 data-i18n="foodTitle">भोजन को सरल तरीके से जानें</h2><p class="muted" data-i18n="foodLead">यहाँ केवल educational/demo information है; व्यक्तिगत चिकित्सा सलाह नहीं।</p></div></div>
-      <div class="food-grid">
-        <article class="card food"><div class="icon">🥣</div><h3 data-i18n="food1">दलिया</h3><p class="small" data-i18n="food1d">हल्का breakfast idea.</p></article>
-        <article class="card food"><div class="icon">🍚</div><h3 data-i18n="food2">चावल</h3><p class="small" data-i18n="food2d">सामान्य food education.</p></article>
-        <article class="card food"><div class="icon">🥕</div><h3 data-i18n="food3">सब्जियाँ</h3><p class="small" data-i18n="food3d">रंग और विविधता पर ध्यान।</p></article>
-        <article class="card food"><div class="icon">🍎</div><h3 data-i18n="food4">फल</h3><p class="small" data-i18n="food4d">मौसमी फल explore करें।</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section id="faq">
-    <div class="container">
-      <div class="section-head"><div><div class="eyebrow">FAQ</div><h2 data-i18n="faqTitle">सामान्य प्रश्न</h2></div></div>
-      <div class="grid3">
-        <article class="card"><h3 data-i18n="q1">क्या यह medical diagnosis है?</h3><p class="muted" data-i18n="a1">नहीं। यह educational wellness experience है और किसी बीमारी का निदान नहीं करता।</p></article>
-        <article class="card"><h3 data-i18n="q2">क्या मुझे हर recommendation माननी चाहिए?</h3><p class="muted" data-i18n="a2">नहीं। इसे सामान्य जानकारी की तरह देखें और व्यक्तिगत चिंता में qualified professional से सलाह लें।</p></article>
-        <article class="card"><h3 data-i18n="q3">क्या account जरूरी है?</h3><p class="muted" data-i18n="a3">इस free prototype में नहीं।</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="container"><div class="disclaimer"><strong data-i18n="discTitle">जिम्मेदारी से शुरुआत करें।</strong><p class="small" data-i18n="disc">यह platform सामान्य wellness education और सांस्कृतिक संदर्भ देता है। यह diagnosis, treatment या guaranteed health outcome का विकल्प नहीं है।</p></div></div>
-  </section>
+<section id="how"><div class="wrap"><div class="cta"><div><div class="eyebrow">EDUCATIONAL WELLNESS GUIDE</div><h2 data-i18n="ctaTitle">पहले समझें, फिर अपने लिए सोचें।</h2><p data-i18n="ctaText">12 सरल प्रश्नों या अनुकूलित स्मार्ट संवाद के उत्तर देकर एक शैक्षिक प्रकृति snapshot देखें। परिणाम को किसी चिकित्सा diagnosis की तरह न समझें।</p></div><button class="btn primary" onclick="openAnalyzer()" data-i18n="start">🌿 प्रकृति जानें →</button></div></div></section>
 </main>
 
-<footer>
-  <div class="container footer-grid">
-    <div><div class="brand"><span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 21V9"/><path d="M12 12C7 12 4 9 4 4c5 0 8 3 8 8Z"/><path d="M12 15c5 0 8-3 8-8-5 0-8 3-8 8Z"/></svg></span><span>Prakriti & Chrono-Diet</span></div><p class="small" data-i18n="footerText">प्रकृति, भोजन के समय और ऋतु से जुड़ी wellness education.</p></div>
-    <div><strong>Explore</strong><p class="small"><a href="#how">How It Works</a><br><a href="#food">Food</a><br><a href="#seasons">Seasons</a></p></div>
-    <div><strong>Carefully</strong><p class="small"><a href="#faq">FAQ</a><br>Privacy<br>Disclaimer<br>Contact</p></div>
-  </div>
-  <div class="container small" style="border-top:1px solid var(--border);margin-top:28px;padding-top:18px">© 2026 Prakriti & Chrono-Diet</div>
-</footer>
-
-<!-- Modal / Analyzer Popup -->
-<div class="modal" id="modal">
-  <div class="modal-card">
-    <div style="display:flex;justify-content:space-between;gap:15px;align-items:center">
-      <div><div class="eyebrow" id="modalEyebrow">PRAKRITI ANALYZER</div><h2 id="qTitle">आपकी सामान्य पसंद क्या है?</h2></div>
-      <button class="control" id="closeModal">✕</button>
-    </div>
-    
-    <div id="quizContent">
-      <div class="qbar"><i id="qProgress"></i></div>
-      <p class="small" id="qCount"></p>
-      <div class="options" id="options"></div>
-      <div style="display:flex;justify-content:space-between;gap:10px;margin-top:20px">
-        <button class="secondary" id="prevQ">←</button>
-        <button class="cta" id="nextQ">आगे →</button>
-      </div>
-    </div>
-
-    <!-- Personalized Result Box (Hidden by default) -->
-    <div id="resultContent" style="display:none;"></div>
-  </div>
+<footer><div class="wrap footer"><div class="footerGrid">
+<div><div class="footerTitle">🌿 <span data-i18n="brand">प्रकृति & क्रोनो-डाइट</span></div><p data-i18n="footerDesc">प्रकृति, समय, भोजन और ऋतु को समझने के लिए एक सरल द्विभाषी शैक्षिक मंच।</p></div>
+<div><b data-i18n="explore">Explore</b><a href="#prakriti">प्रकृति</a><a href="#chrono">क्रोनो-डाइट</a><a href="#seasons">6 ऋतुएँ</a><a href="#how">Analyzer</a></div>
+<div><b data-i18n="information">Information</b><a href="#" onclick="openPolicy('about');return false">About Us</a><a href="#" onclick="openPolicy('contact');return false">Contact</a><a href="#" onclick="openPolicy('faq');return false">FAQ</a><a href="#" onclick="openPolicy('sources');return false">Sources & Method</a></div>
+<div><b data-i18n="legal">Legal</b><a href="#" onclick="openPolicy('privacy');return false">Privacy Policy</a><a href="#" onclick="openPolicy('terms');return false">Terms & Conditions</a><a href="#" onclick="openPolicy('disclaimer');return false">Wellness Disclaimer</a><a href="#" onclick="openPolicy('cookies');return false">Cookie & Ads Notice</a></div>
 </div>
+<div class="copy"><span>© 2026 Prakriti & Chrono-Diet</span><span data-i18n="footerNote">Educational wellness content · Not medical advice</span></div>
+</div></footer>
+
+<div class="modal" id="modal"><div class="modalBox" id="modalBox"></div></div>
 
 <script>
-const T={
+const I={
 hi:{
-navHome:"होम",navHow:"कैसे काम करता है",navFood:"भोजन",navSeason:"ऋतु",navFaq:"सामान्य प्रश्न",start:"विश्लेषण शुरू करें →",
-eyebrow:"प्रकृति • समय • ऋतु",heroTitle:"आपकी <span>प्रकृति</span> क्या कहती है?",heroLead:"कुछ आसान सवालों के जवाब दें और अपनी प्रकृति, भोजन के समय और मौसम से जुड़ी सामान्य wellness जानकारी को समझें।",startFree:"निःशुल्क विश्लेषण शुरू करें →",howBtn:"यह कैसे काम करता है?",note:"शैक्षिक wellness अनुभव • चिकित्सा निदान नहीं",badge:"संतुलन को समझने की शुरुआत",
-approach:"सरल प्रक्रिया",howTitle:"तीन आसान चरण",step1:"1. आसान सवाल",step1d:"कुछ सरल wellness प्रश्नों के उत्तर दें।",step2:"2. प्रकृति प्रोफाइल",step2d:"वात, पित्त और कफ के बारे में शैक्षिक संकेत देखें।",step3:"3. समय और ऋतु",step3d:"भोजन के समय और मौसम के संदर्भ को समझें।",
-prakritiTitle:"अपनी प्रकृति की तीन भाषाएँ",prakritiLead:"इन्हें निदान नहीं, पारंपरिक wellness अवधारणाओं को समझने के एक lens की तरह देखें।",vata:"गतिशीलता, परिवर्तन और लय से जुड़ी पारंपरिक अवधारणा।",pitta:"ऊष्मा, परिवर्तन और ऊर्जा से जुड़ी पारंपरिक अवधारणा।",kapha:"स्थिरता, पोषण और आधार से जुड़ी पारंपरिक अवधारणा।",
-chronoTitle:"सिर्फ क्या खाना ही नहीं, कब खाना भी महत्वपूर्ण हो सकता है।",chronoLead:"दिन के अलग समयों को एक educational wellness lens से explore करें।",clockBtn:"सुबह से शुरू करें",morning:"सुबह",afternoon:"दोपहर",evening:"शाम",night:"रात",
-seasonTitle:"छह ऋतुएँ, छह अलग संदर्भ",seasonLead:"भारतीय ऋतु-चक्र को एक सरल wellness education lens से explore करें।",
-foodTitle:"भोजन को सरल तरीके से जानें",foodLead:"यहाँ केवल educational/demo information है; व्यक्तिगत चिकित्सा सलाह नहीं।",food1:"दलिया",food1d:"हल्का breakfast idea.",food2:"चावल",food2d:"सामान्य food education.",food3:"सब्जियाँ",food3d:"रंग और विविधता पर ध्यान।",food4:"फल",food4d:"मौसमी फल explore करें।",
-faqTitle:"सामान्य प्रश्न",q1:"क्या यह medical diagnosis है?",a1:"नहीं। यह educational wellness experience है और किसी बीमारी का निदान नहीं करता।",q2:"क्या मुझे हर recommendation माननी चाहिए?",a2:"नहीं। इसे सामान्य जानकारी की तरह देखें और व्यक्तिगत चिंता में qualified professional से सलाह लें।",q3:"क्या account जरूरी है?",a3:"इस free prototype में नहीं।",discTitle:"जिम्मेदारी से शुरुआत करें।",disc:"यह platform सामान्य wellness education और सांस्कृतिक संदर्भ देता है। यह diagnosis, treatment या guaranteed health outcome का विकल्प नहीं है।",footerText:"प्रकृति, भोजन के समय और ऋतु से जुड़ी wellness education।"
+brand:"प्रकृति & क्रोनो-डाइट",navPrakriti:"प्रकृति",navChrono:"क्रोनो-डाइट",navSeasons:"6 ऋतुएँ",navHow:"कैसे काम करता है",
+start:"प्रकृति जानें →",eyebrow:"EVERYDAY WELLNESS · प्रकृति · समय · ऋतु",heroTitle:"अपनी प्रकृति को जानें,<br><span>स्वस्थ जीवन समझें।</span>",
+heroText:"सरल प्रश्नों के माध्यम से पारंपरिक प्रकृति की अवधारणा को समझें और भोजन, दिनचर्या तथा ऋतु के बारे में शैक्षिक जानकारी पाएँ।",
+heroCta:"🌿 अपनी प्रकृति का परीक्षण शुरू करें",howBtn:"यह कैसे काम करता है?",trust:"🔒 कोई खाता आवश्यक नहीं · लगभग 3 मिनट · शैक्षिक wellness guidance",
+doshaTitle:"तीनों प्रकृतियाँ — अपना स्वभाव जानें",doshaIntro:"यह पारंपरिक आयुर्वेदिक अवधारणाओं को समझने का शैक्षिक माध्यम है, चिकित्सा निदान नहीं।",
+vataShort:"गति, हल्कापन, रचनात्मकता और परिवर्तन से जुड़े पारंपरिक गुणों को समझें.",pittaShort:"ऊर्जा, परिवर्तन, पाचन और तीक्ष्णता से जुड़े पारंपरिक गुणों को समझें.",kaphaShort:"स्थिरता, पोषण, धैर्य और भारीपन से जुड़े पारंपरिक गुणों को समझें.",
+readMore:"विस्तार से पढ़ें →",chronoTitle:"दिन की भी अपनी लय होती है।",chronoIntro:"समय को कठोर नियम नहीं, बल्कि भोजन, नींद और दिनचर्या को समझने के एक शैक्षिक lens की तरह देखें.",
+morningTitle:"सुबह · धीरे शुरू करें",morningText:"जल, हल्की गतिविधि और दिन की शांत शुरुआत के लिए समय निकालें.",noonTitle:"दोपहर · संतुलित मुख्य भोजन",noonText:"दिन के बीच में नियमित और संतुलित भोजन के लिए पर्याप्त समय रखें.",nightTitle:"रात · धीरे-धीरे शांत हों",nightText:"शाम को गतिविधियाँ कम करें और आराम तथा नींद के लिए तैयार हों.",
+seasonTitle:"छह ऋतुएँ — हर मौसम की अपनी कहानी",seasonIntro:"हर कार्ड खोलकर उस ऋतु की परंपरागत समझ, प्रकृति, भोजन-संबंधी सामान्य विचार और दैनिक जीवन के बारे में विस्तार से पढ़ें.",
+ctaTitle:"पहले समझें, फिर अपने लिए सोचें।",ctaText:"12 सरल प्रश्नों के उत्तर देकर एक शैक्षिक प्रकृति snapshot देखें। परिणाम को किसी चिकित्सा diagnosis की तरह न समझें.",
+footerDesc:"प्रकृति, समय, भोजन और ऋतु को समझने के लिए एक सरल द्विभाषी शैक्षिक मंच.",explore:"Explore",information:"Information",legal:"Legal",footerNote:"Educational wellness content · Not medical advice"
 },
 en:{
-navHome:"Home",navHow:"How It Works",navFood:"Food",navSeason:"Seasons",navFaq:"FAQ",start:"Start Analysis →",
-eyebrow:"PRAKRITI • TIME • SEASON",heroTitle:"What does your <span>Prakriti</span> say?",heroLead:"Answer a few simple questions to explore your Prakriti, food timing and seasonal wellness context.",startFree:"Start Free Analysis →",howBtn:"How does it work?",note:"Educational wellness experience • Not a medical diagnosis",badge:"A gentle place to begin",
-approach:"SIMPLE PROCESS",howTitle:"Three simple steps",step1:"1. Simple questions",step1d:"Answer a few easy wellness questions.",step2:"2. Prakriti profile",step2d:"Explore educational ideas around Vata, Pitta and Kapha.",step3:"3. Time & season",step3d:"Explore food timing and seasonal context.",
-prakritiTitle:"Three traditional Prakriti lenses",prakritiLead:"Explore these as traditional wellness concepts, not as a medical diagnosis.",vata:"A traditional concept associated with movement, change and rhythm.",pitta:"A traditional concept associated with heat, transformation and energy.",kapha:"A traditional concept associated with stability, nourishment and grounding.",
-chronoTitle:"What you eat matters — and timing can matter too.",chronoLead:"Explore different parts of the day through a general wellness education lens.",clockBtn:"Start with morning",morning:"Morning",afternoon:"Afternoon",evening:"Evening",night:"Night",
-seasonTitle:"Six seasons, six contexts",seasonLead:"Explore the Indian seasonal cycle through a simple wellness education lens.",
-foodTitle:"Explore food simply",foodLead:"Demo educational content only; not personal medical advice.",food1:"Porridge",food1d:"A simple breakfast idea.",food2:"Rice",food2d:"General food education.",food3:"Vegetables",food3d:"Focus on variety and color.",food4:"Fruit",food4d:"Explore seasonal fruit.",
-faqTitle:"Frequently asked questions",q1:"Is this a medical diagnosis?",a1:"No. This is an educational wellness experience and does not diagnose disease.",q2:"Should I follow every recommendation?",a2:"No. Treat it as general information and consult a qualified professional for personal concerns.",q3:"Do I need an account?",a3:"Not for this free prototype.",discTitle:"A responsible place to begin.",disc:"This platform provides general wellness education and cultural context. It is not a substitute for diagnosis, treatment or guaranteed health outcomes.",footerText:"Wellness education around Prakriti, food timing and seasons."
-}};
+brand:"Prakriti & Chrono-Diet",navPrakriti:"Prakriti",navChrono:"Chrono-Diet",navSeasons:"6 Seasons",navHow:"How it works",
+start:"Explore Prakriti →",eyebrow:"EVERYDAY WELLNESS · NATURE · TIME · SEASONS",heroTitle:"Understand your nature,<br><span>understand your rhythm.</span>",
+heroText:"Answer simple questions to explore traditional Prakriti concepts and learn about food timing, daily rhythm and seasonal context.",
+heroCta:"🌿 Start Prakriti exploration",howBtn:"How does it work?",trust:"🔒 No account required · about 3 minutes · educational wellness guidance",
+doshaTitle:"Three lenses — explore your nature",doshaIntro:"A learning tool for traditional Ayurvedic concepts, not a medical diagnosis.",
+vataShort:"Explore traditional qualities associated with movement, lightness, creativity and change.",pittaShort:"Explore traditional qualities associated with transformation, energy, digestion and intensity.",kaphaShort:"Explore traditional qualities associated with steadiness, nourishment, patience and heaviness.",
+readMore:"Read the full guide →",chronoTitle:"The day has a rhythm, too.",chronoIntro:"Use time as an educational lens for food, sleep and daily routine—not as a rigid rulebook.",
+morningTitle:"Morning · begin gently",morningText:"Make space for hydration, light movement and a calm start.",noonTitle:"Midday · balanced main meal",noonText:"Give yourself enough time for a regular, balanced meal during the middle of the day.",nightTitle:"Evening · wind down",nightText:"Reduce stimulation and create space for rest and sleep.",
+seasonTitle:"Six seasons — six different stories",seasonIntro:"Open any season to explore traditional context, nature, food ideas and everyday lifestyle considerations.",
+ctaTitle:"Learn first, then choose thoughtfully.",ctaText:"Answer 12 simple questions to see an educational Prakriti snapshot. It is not a medical diagnosis.",
+footerDesc:"A simple bilingual learning platform for exploring nature, time, food and seasonal rhythms.",explore:"Explore",information:"Information",legal:"Legal",footerNote:"Educational wellness content · Not medical advice"
+}}
+let lang=localStorage.getItem("pcd-lang")||"hi";
+function applyLang(){document.documentElement.lang=lang;document.getElementById("langBtn").textContent=lang==="hi"?"EN":"हिन्दी";document.querySelectorAll("[data-i18n]").forEach(e=>{let k=e.dataset.i18n;if(I[lang][k]!=null)e.textContent=I[lang][k]});document.querySelectorAll("[data-i18n-html]").forEach(e=>{let k=e.dataset.i18nHtml;if(I[lang][k]!=null)e.innerHTML=I[lang][k]});renderSeasons()}
+document.getElementById("langBtn").onclick=()=>{lang=lang==="hi"?"en":"hi";localStorage.setItem("pcd-lang",lang);applyLang()}
 
 const seasons=[
-["🌱","वसंत ऋतु","Spring","नई शुरुआत, हल्कापन और प्रकृति में बदलाव का समय।","A season of renewal and change."],
-["☀️","ग्रीष्म ऋतु","Summer","गर्मी और तेज धूप का मौसम।","A season of heat and strong sunlight."],
-["🌧️","वर्षा ऋतु","Monsoon","वर्षा और वातावरण में नमी का समय।","A season of rain and humidity."],
-["🍂","शरद ऋतु","Autumn","बरसात के बाद साफ आसमान और बदलता मौसम।","A season of transition after the rains."],
-["🌾","हेमंत ऋतु","Pre-Winter","ठंड की ओर बढ़ता अपेक्षाकृत शांत समय।","A cooler transition toward winter."],
-["❄️","शिशिर ऋतु","Winter","ठंड और विश्राम का पारंपरिक ऋतु-संदर्भ।","A traditional seasonal context of colder days."]
+{id:"vasant",hi:{name:"वसंत",months:"फरवरी–अप्रैल",icon:"🌸",title:"वसंत ऋतु: परिवर्तन, हल्कापन और नई शुरुआत",sub:"सर्दी से गर्मी की ओर बढ़ता हुआ प्रकृति का सुंदर संक्रमण",tags:["ऋतु परिवर्तन","हरियाली","हल्का भोजन","दैनिक लय"]},en:{name:"Spring",months:"February–April",icon:"🌸",title:"Spring: transition, lightness and renewal",sub:"A gentle seasonal bridge from winter toward warmer days",tags:["Transition","Fresh growth","Balanced meals","Daily rhythm"]}},
+{id:"grishma",hi:{name:"ग्रीष्म",months:"मई–जून",icon:"☀️",title:"ग्रीष्म ऋतु: गर्मी, जल और सहज दिनचर्या",sub:"तेज धूप और बढ़ते तापमान के बीच शरीर की सहज जरूरतों को समझना",tags:["गर्मी","जल","आराम","हल्का भोजन"]},en:{name:"Summer",months:"May–June",icon:"☀️",title:"Summer: heat, hydration and a gentler rhythm",sub:"Understanding everyday needs during brighter, hotter days",tags:["Heat","Hydration","Rest","Lighter meals"]}},
+{id:"varsha",hi:{name:"वर्षा",months:"जुलाई–सितंबर",icon:"🌧️",title:"वर्षा ऋतु: नमी, बदलाव और सावधान दिनचर्या",sub:"बारिश के बदलते वातावरण में भोजन और दिनचर्या को व्यवस्थित रखना",tags:["बारिश","नमी","स्वच्छता","नियमितता"]},en:{name:"Monsoon",months:"July–September",icon:"🌧️",title:"Monsoon: moisture, change and mindful routines",sub:"Keeping everyday food and routines steady through a changing environment",tags:["Rain","Humidity","Hygiene","Routine"]}},
+{id:"sharad",hi:{name:"शरद",months:"सितंबर–नवंबर",icon:"🍂",title:"शरद ऋतु: साफ आसमान और संक्रमण का समय",sub:"वर्षा के बाद बदलते तापमान और खुलते आकाश के बीच नई लय",tags:["संक्रमण","धूप","नियमितता","संतुलन"]},en:{name:"Autumn",months:"September–November",icon:"🍂",title:"Autumn: clear skies and seasonal transition",sub:"A changing rhythm as the rains recede and temperatures shift",tags:["Transition","Sunlight","Routine","Balance"]}},
+{id:"hemant",hi:{name:"हेमंत",months:"नवंबर–जनवरी",icon:"🌾",title:"हेमंत ऋतु: ठंड की शुरुआत और पोषण की लय",sub:"ठंडी होती सुबहों में गर्माहट, नियमित भोजन और आराम को समझना",tags:["ठंड","गर्माहट","पोषण","आराम"]},en:{name:"Pre-winter",months:"November–January",icon:"🌾",title:"Pre-winter: cool mornings and nourishing rhythms",sub:"Making room for warmth, regular meals and rest as the air cools",tags:["Cool weather","Warmth","Nourishment","Rest"]}},
+{id:"shishir",hi:{name:"शिशिर",months:"जनवरी–फरवरी",icon:"❄️",title:"शिशिर ऋतु: सर्दी, स्थिरता और नियमितता",sub:"ठंडे दिनों में शरीर, घर और दिनचर्या के बीच सहज संतुलन",tags:["सर्दी","नियमितता","गर्माहट","गतिविधि"]},en:{name:"Winter",months:"January–February",icon:"❄️",title:"Winter: cold, steadiness and regular rhythm",sub:"A season for warmth, consistency and thoughtful everyday activity",tags:["Cold","Consistency","Warmth","Activity"]}}
 ];
+
+function seasonCard(s){let d=s[lang];return `<article class="season"><div class="seasonArt" aria-hidden="true">${d.icon}</div><div class="seasonBody"><h3>${d.name}</h3><small>${d.months}</small><p>${d.sub}</p><button class="btn primary read" onclick="openSeason('${s.id}')">${lang==="hi"?"विस्तार से पढ़ें · पूरा लेख":"Read More · Full guide"} →</button></div></article>`}
+function renderSeasons(){document.getElementById("seasonGrid").innerHTML=seasons.map(seasonCard).join("")}
+function seasonArticle(s){
+let d=s[lang], hi=lang==="hi";
+let sections=hi?[
+["01 · प्रकृति का परिचय",`ऋतु केवल कैलेंडर की तारीख नहीं है। भारतीय जीवन परंपराओं में मौसम को आसपास के वातावरण, प्रकाश, तापमान, हवा, नमी, भोजन और दैनिक गतिविधियों के साथ जोड़ा गया है। ${d.name} को समझने का सबसे उपयोगी तरीका यह है कि हम अपने आसपास के बदलावों को देखें और अपनी दिनचर्या को उनके अनुसार थोड़ा अधिक सजग बनाएं। इसका अर्थ कठोर नियम बनाना नहीं है। अलग-अलग स्थानों, परिवारों, उम्र और जीवनशैली में मौसम का अनुभव अलग हो सकता है। इसलिए इस लेख को एक शैक्षिक मार्गदर्शक की तरह पढ़ें।`],
+["02 · मौसम में क्या बदलता है?",`इस समय दिन की लंबाई, तापमान, नमी और हवा का व्यवहार बदल सकता है। इन बदलावों का असर नींद, भूख, बाहर रहने के समय, पानी पीने की आदत और भोजन की पसंद पर पड़ सकता है। उदाहरण के लिए, बहुत गर्म दिन में व्यक्ति हल्के और तरल भोजन की ओर आकर्षित हो सकता है, जबकि ठंडे दिनों में गर्म भोजन अधिक सहज लग सकता है। यहां मुख्य विचार अपने शरीर के संकेतों को सुनना है—अत्यधिक प्यास, असामान्य कमजोरी, लगातार अस्वस्थता या अन्य चिंताजनक लक्षण हों तो चिकित्सकीय सलाह लेना उचित है।`],
+["03 · भोजन को कैसे समझें?",`मौसम के अनुसार भोजन की चर्चा करते समय स्थानीय, ताजा, साफ और संतुलित भोजन को प्राथमिक आधार मानना उपयोगी है। भोजन की मात्रा और समय व्यक्ति की उम्र, काम, गतिविधि, संस्कृति और स्वास्थ्य स्थिति के अनुसार बदल सकते हैं। किसी एक भोजन को हर व्यक्ति के लिए “सर्वश्रेष्ठ” घोषित करना उचित नहीं है। इस मंच का उद्देश्य आपको भोजन के बारे में सोचने के लिए सरल प्रश्न देना है: क्या भोजन ताजा है? क्या पर्याप्त विविधता है? क्या मैं अपनी भूख और तृप्ति को समझ रहा हूँ? क्या भोजन मेरी दिनचर्या के अनुकूल है?`],
+["04 · दिनचर्या और नींद",`मौसम बदलने पर सोने-जागने का अनुभव भी बदल सकता है। नियमित समय पर सोना, सुबह प्राकृतिक रोशनी लेना, दिन में उचित गतिविधि रखना और सोने से पहले अत्यधिक स्क्रीन या उत्तेजना कम करना सामान्य wellness habits हैं। यहां भी कठोर “एक ही समय” सब पर लागू नहीं होता। काम की शिफ्ट, बच्चों की पढ़ाई, बुजुर्गों की जरूरत और व्यक्तिगत जीवनशैली अलग हो सकती है। उद्देश्य एक ऐसा rhythm बनाना है जिसे लंबे समय तक निभाया जा सके।`],
+["05 · छह इंद्रियों से मौसम को देखना",`ऋतु को केवल तापमान से नहीं, बल्कि देखने, सुनने, सूंघने, स्वाद और स्पर्श के अनुभव से भी समझा जा सकता है। पेड़ों की पत्तियों का रंग, हवा की नमी, मिट्टी की गंध, दिन की रोशनी और भोजन की उपलब्धता हमें वातावरण के बारे में संकेत देते हैं। यह observation habit बच्चों और बड़ों दोनों के लिए उपयोगी हो सकती है। आप एक छोटा seasonal journal भी बना सकते हैं और हर सप्ताह लिख सकते हैं कि नींद, भूख, ऊर्जा और पसंद में क्या बदलाव महसूस हुआ।`],
+["06 · प्रकृति और परंपरा",`आयुर्वेदिक परंपरा में ऋतुचर्या की चर्चा मिलती है, जिसमें मौसम के साथ आहार और व्यवहार में अनुकूलन की बात की जाती है। इन पारंपरिक विचारों को आधुनिक स्वास्थ्य सलाह का विकल्प नहीं मानना चाहिए। आधुनिक पोषण विज्ञान भी पर्याप्त और विविध भोजन, सुरक्षित पानी, स्वच्छता, नियमित शारीरिक गतिविधि और अच्छी नींद जैसे व्यापक सिद्धांतों पर जोर देता है। परंपरा और आधुनिक विज्ञान को समझते समय दोनों के संदर्भ और सीमाओं को स्पष्ट रखना जरूरी है।`],
+["07 · बच्चों और बुजुर्गों के लिए",`बच्चों, बुजुर्गों और विशेष जरूरत वाले लोगों में मौसम का असर अलग हो सकता है। बच्चों के लिए पानी, सुरक्षित भोजन, आराम और मौसम के अनुसार कपड़े महत्वपूर्ण सामान्य बातें हैं। बुजुर्गों में तापमान और निर्जलीकरण जैसी समस्याओं के प्रति अतिरिक्त सावधानी उपयोगी हो सकती है। यदि कोई व्यक्ति पहले से दवा ले रहा है, गर्भवती है, किसी बीमारी से जूझ रहा है या चिकित्सकीय निगरानी में है, तो भोजन या दिनचर्या में बड़ा बदलाव करने से पहले योग्य स्वास्थ्य विशेषज्ञ से सलाह लेनी चाहिए।`],
+["08 · इस ऋतु की छोटी checklist",`हर दिन अपने लिए पांच सरल प्रश्न रखें: आज मौसम कैसा है? मैंने पर्याप्त और सुरक्षित तरल लिया? मेरा भोजन विविध और संतुलित था? मैंने पर्याप्त आराम किया? क्या मेरे शरीर ने कोई असामान्य संकेत दिया? इन प्रश्नों का उद्देश्य डर पैदा करना नहीं, बल्कि awareness बढ़ाना है। छोटे बदलाव अक्सर लंबे समय तक टिकने वाली आदतों से अधिक उपयोगी होते हैं।`],
+["09 · क्या न करें",`मौसम देखकर अचानक बहुत कठोर diet, fasting, supplement या herbal product शुरू न करें। इंटरनेट पर मिलने वाले “detox”, “guaranteed cure” या “हर व्यक्ति के लिए एक ही नियम” जैसे दावों को सावधानी से देखें। किसी प्राकृतिक पदार्थ का अर्थ यह नहीं कि वह हर व्यक्ति के लिए सुरक्षित है। एलर्जी, दवाओं के साथ interaction और अन्य व्यक्तिगत परिस्थितियां महत्वपूर्ण हो सकती हैं।`],
+["10 · अंतिम विचार",`${d.name} हमें प्रकृति की गति को देखने का अवसर देता है। इस मौसम में सबसे अच्छा लक्ष्य perfection नहीं बल्कि awareness हो सकता है। मौसम देखें, अपने routine को देखें, भोजन को देखें और अपने शरीर के संकेतों को सम्मान दें। यही इस platform का मूल विचार है: परंपरा को सीखें, आधुनिक जानकारी को समझें और अपने निर्णय सोच-समझकर लें। यह लेख सामान्य educational information है; व्यक्तिगत चिकित्सा सलाह नहीं।`]
+]:[
+["01 · Seasonal context",`A season is more than a calendar label. Traditional Indian approaches often connect weather with the surrounding environment, daylight, temperature, humidity, food availability and daily routines. The most useful way to explore ${d.name} is to notice these changes without turning them into rigid rules. Different regions, ages, occupations and lifestyles experience the same season differently, so this article is educational context rather than individualized medical advice.`],
+["02 · What changes?",`Temperature, humidity, daylight and wind patterns can change across the season. These shifts may influence sleep, appetite, outdoor activity, hydration habits and food preferences. A very hot day may make lighter foods feel comfortable, while a cool day may make warm meals more appealing. The key wellness habit is observation. Persistent or concerning symptoms should be discussed with an appropriate healthcare professional.`],
+["03 · Food as a seasonal practice",`A useful foundation is fresh, varied, safe and balanced food. Portions and meal timing depend on age, activity, culture, work and individual circumstances. No single food should be presented as universally best. Instead, ask: Is the food fresh? Is my diet varied? Am I responding to hunger and fullness? Does the meal fit my routine? These questions encourage practical awareness without promising medical outcomes.`],
+["04 · Rhythm and sleep",`Seasonal changes can alter how daily routines feel. Consistent sleep and wake times, daylight exposure, reasonable activity and a calmer pre-sleep routine are broadly useful wellness habits. There is no single perfect schedule for everyone. Shift workers, children, older adults and different households have different needs. The goal is a sustainable rhythm, not perfection.`],
+["05 · Observe the season",`Seasonal awareness can involve sight, sound, smell, taste and touch. Changes in leaves, air, soil, light and local foods can help us notice the environment. Children and adults can keep a simple seasonal journal, noting changes in sleep, appetite, energy and preferences. This turns a season into a practical learning experience rather than a list of restrictions.`],
+["06 · Tradition and modern science",`Ayurvedic literature discusses seasonal routines, including ways of adapting food and behavior to the environment. These traditional concepts should not be treated as a substitute for modern healthcare. Contemporary nutrition and public-health guidance also emphasizes balanced food, safe water, hygiene, physical activity and adequate sleep. Keeping the context and limits of both perspectives clear helps users make more responsible choices.`],
+["07 · Children and older adults",`Children, older adults and people with specific needs may respond differently to weather. General priorities include safe food, appropriate fluids, rest and suitable clothing. Older adults may need extra attention to heat, cold and hydration. Anyone taking medication, pregnant, managing a medical condition or under clinical care should consult a qualified professional before making major dietary or routine changes.`],
+["08 · A simple checklist",`Ask five questions each day: What is the weather doing? Have I had enough safe fluids? Was my food varied and balanced? Did I rest adequately? Did I notice anything unusual? The goal is awareness, not anxiety. Small sustainable habits are generally more useful than dramatic short-term changes.`],
+["09 · What to avoid",`Avoid starting restrictive diets, fasting routines, supplements or herbal products simply because a season has changed. Be cautious with online claims about detoxes, guaranteed cures or one-size-fits-all remedies. Natural does not automatically mean safe for every person; allergies, medication interactions and personal circumstances matter.`],
+["10 · Closing thought",`${d.name} can be a reminder to observe nature and adjust everyday habits thoughtfully. Aim for awareness rather than perfection: notice the season, notice your routine, notice your food and respect your body's signals. Learn from tradition, consider modern evidence and make decisions carefully. This article is general educational information, not individualized medical advice.`]
+];
+return `<div class="modalTop"><div><div class="articleMeta">SEASONAL WELLNESS · ${d.months}</div><h2>${d.title}</h2><p class="modalText">${d.sub}</p></div><button class="iconbtn" onclick="closeModal()">✕</button></div><div class="articleHero"><div class="articleArt">${d.icon}</div><div><div class="tagRow">${d.tags.map(x=>`<span class="tag">${x}</span>`).join("")}</div><p class="modalText">${hi?"इस लेख को सामान्य शैक्षिक जानकारी के रूप में पढ़ें।":"Read this as general educational information."}</p></div></div>${sections.map(x=>`<section style="padding:8px 0"><h3>${x[0]}</h3><p class="modalText">${x[1]}</p></section>`).join("")}<div class="ad">ADVERTISEMENT · RESERVED SPACE</div><button class="btn primary" onclick="closeModal()">${hi?"लेख बंद करें":"Close article"}</button>`;
+}
+
+const articles={
+vata:{hi:{title:"वात: गति और परिवर्तन की पारंपरिक अवधारणा",icon:"🌬️",sub:"वायु और आकाश से जुड़ी पारंपरिक आयुर्वेदिक अवधारणा को सरल भाषा में समझें।"},en:{title:"Vata: a traditional lens for movement and change",icon:"🌬️",sub:"A simple educational introduction to a traditional Ayurvedic concept associated with movement and change."}},
+pitta:{hi:{title:"पित्त: परिवर्तन और ऊर्जा की पारंपरिक अवधारणा",icon:"🔥",sub:"अग्नि और जल से जुड़ी पारंपरिक आयुर्वेदिक अवधारणा को सरल भाषा में समझें।"},en:{title:"Pitta: a traditional lens for transformation and energy",icon:"🔥",sub:"A simple educational introduction to a traditional Ayurvedic concept associated with transformation and energy."}},
+kapha:{hi:{title:"कफ: स्थिरता और पोषण की पारंपरिक अवधारणा",icon:"💧",sub:"जल और पृथ्वी से जुड़ी पारंपरिक आयुर्वेदिक अवधारणा को सरल भाषा में समझें।"},en:{title:"Kapha: a traditional lens for steadiness and nourishment",icon:"💧",sub:"A simple educational introduction to a traditional Ayurvedic concept associated with steadiness and nourishment."}},
+chrono:{hi:{title:"क्रोनो-डाइट: समय और भोजन की लय को समझना",icon:"🕐",sub:"भोजन के समय को कठोर नियम के बजाय दैनिक rhythm को समझने के शैक्षिक lens की तरह देखें।"},en:{title:"Chrono-Diet: exploring time, meals and daily rhythm",icon:"🕐",sub:"Use meal timing as an educational lens for daily rhythm rather than a rigid rulebook."}}
+};
+function openArticle(id){let a=articles[id][lang];let blocks=lang==="hi"?[
+["यह अवधारणा क्या बताती है?",`${a.sub} पारंपरिक आयुर्वेद में शरीर और मन के अनुभवों को समझने के लिए विभिन्न गुणों और पैटर्न की भाषा का उपयोग मिलता है। यहां उद्देश्य किसी व्यक्ति को स्थायी label देना नहीं है, बल्कि एक सांस्कृतिक और शैक्षिक framework को समझना है।`],
+["दैनिक जीवन में इसे कैसे पढ़ें?",`अपने अनुभवों को ध्यान से देखना उपयोगी हो सकता है—जैसे ऊर्जा, भूख, नींद, मौसम के साथ सहजता और दिनचर्या में बदलाव। लेकिन किसी एक संकेत से अपनी प्रकृति तय करना उचित नहीं है। हमारे analyzer के परिणाम को भी केवल एक educational snapshot मानें।`],
+["भोजन के बारे में सावधानी",`किसी प्रकृति के नाम पर अत्यधिक restrictive diet अपनाने की जरूरत नहीं है। पर्याप्त, विविध और सुरक्षित भोजन सामान्य आधार है। यदि कोई स्वास्थ्य समस्या, दवा, गर्भावस्था या विशेष पोषण आवश्यकता हो तो योग्य स्वास्थ्य विशेषज्ञ की सलाह को प्राथमिकता दें।`],
+["परंपरा और आधुनिक समझ",`पारंपरिक अवधारणाएं अपने ऐतिहासिक संदर्भ में मूल्यवान हो सकती हैं। आधुनिक स्वास्थ्य विज्ञान अलग प्रकार के प्रमाण और परीक्षणों पर आधारित है। दोनों को मिलाते समय यह स्पष्ट रखना चाहिए कि educational tradition किसी बीमारी का diagnosis या treatment नहीं बन जाती।`]
+]:[
+["What does this lens mean?",`${a.sub} Traditional Ayurveda uses qualities and patterns as a language for discussing experiences of body and mind. The purpose here is not to assign a permanent label, but to introduce a cultural and educational framework.`],
+["How can you explore it?",`Notice patterns such as energy, appetite, sleep, comfort across weather and changes in routine. A single sign cannot establish a Prakriti. Treat our analyzer result as an educational snapshot only.`],
+["Food and safety",`A Prakriti label should not lead to an unnecessarily restrictive diet. Varied, adequate and safe food is a sensible foundation. If you have a medical condition, take medication, are pregnant or have special nutrition needs, seek qualified professional guidance.`],
+["Tradition and modern evidence",`Traditional concepts can be meaningful within their historical context. Modern health science uses different forms of evidence and testing. An educational tradition should not be presented as a diagnosis or treatment.`]
+];
+document.getElementById("modal").classList.add("show");document.getElementById("modalBox").innerHTML=`<div class="modalTop"><div><div class="articleMeta">LEARNING GUIDE</div><h2>${a.icon} ${a.title}</h2><p class="modalText">${a.sub}</p></div><button class="iconbtn" onclick="closeModal()">✕</button></div><div class="articleHero"><div class="articleArt">${a.icon}</div><div class="modalText">${lang==="hi"?"पढ़ते समय इसे educational lens मानें, medical diagnosis नहीं।":"Use this as an educational lens, not a medical diagnosis."}</div></div>${blocks.map(b=>`<section style="padding:8px 0"><h3>${b[0]}</h3><p class="modalText">${b[1]}</p></section>`).join("")}<button class="btn primary" onclick="closeModal()">${lang==="hi"?"बंद करें":"Close"}</button>`}
 
 const qs=[
-["आप सामान्यतः किस तरह की ऊर्जा महसूस करते हैं?", "How would you describe your usual energy?"],
-["आपका भोजन करने का ढंग कैसा रहता है?", "How would you describe your eating pattern?"],
-["आपकी नींद कैसी रहती है?", "How would you describe your sleep?"],
-["आपको किस मौसम का अनुभव अधिक पसंद आता है?", "Which season feels most comfortable to you?"],
-["आपका स्वभाव किसके करीब लगता है?", "Which description feels closest to your temperament?"],
-["आपकी दिनचर्या कितनी नियमित है?", "How regular is your daily routine?"],
-["आपको काम करते समय क्या अधिक पसंद है?", "What tends to suit you while working?"],
-["आप बदलाव को कैसे अनुभव करते हैं?", "How do you experience change?"],
-["आप आराम कैसे करना पसंद करते हैं?", "How do you prefer to unwind?"],
-["आपकी सामान्य भूख कैसी रहती है?", "How would you describe your usual appetite?"],
-["आपको किस तरह का वातावरण पसंद है?", "What kind of environment do you prefer?"],
-["आप अपने दिन को कैसे व्यवस्थित करते हैं?", "How do you usually structure your day?"]
+["🪶","आपका शरीर सामान्यतः कैसा महसूस करता है?",["हल्का और जल्दी बदलने वाला","मध्यम और गर्म महसूस होने वाला","भारी, स्थिर और आराम पसंद"],["Light and changeable","Moderate and warm","Heavy, steady and comfort-seeking"],["🌬️","🔥","💧"]],
+["🌡️","मौसम में आपको कौन-सा अनुभव अधिक होता है?",["ठंड या सूखापन जल्दी महसूस होता है","गर्मी या अधिक गर्माहट जल्दी महसूस होती है","ठंडक या नमी अधिक आरामदायक लगती है"],["Cold or dryness is noticed quickly","Heat or warmth is noticed quickly","Coolness or moisture feels more comfortable"],["❄️","☀️","💧"]],
+["🍽️","आपकी भूख सामान्यतः कैसी रहती है?",["कभी कम, कभी ज्यादा और समय बदल सकता है","तेज और अपेक्षाकृत नियमित","धीमी, लेकिन लंबे समय तक तृप्ति"],["Variable; appetite may change","Strong and fairly regular","Slower, with longer-lasting fullness"],["🌬️","🔥","💧"]],
+["😴","आपकी नींद का सामान्य ढंग कैसा है?",["हल्की या बीच-बीच में टूटने वाली","मध्यम और सामान्यतः नियमित","गहरी और अपेक्षाकृत लंबी"],["Light or easily interrupted","Moderate and generally regular","Deep and relatively long"],["🌙","☀️","💧"]],
+["⚡","दिन में आपकी ऊर्जा कैसी रहती है?",["तेज आती-जाती और बदलती हुई","सक्रिय, केंद्रित और लक्ष्य-उन्मुख","धीरे शुरू लेकिन टिकाऊ"],["Quick, changing bursts","Active, focused and goal-oriented","Slow to start but sustained"],["🌬️","🔥","💧"]],
+["🧠","नई बात सीखने पर आपका सामान्य अनुभव?",["जल्दी समझता/समझती हूँ, पर कभी जल्दी भूल भी जाता/जाती हूँ","समझकर तुरंत लागू करना पसंद करता/करती हूँ","धीरे समझता/समझती हूँ और लंबे समय तक याद रहती है"],["Learn quickly but may forget quickly","Understand and apply quickly","Learn slowly and remember for longer"],["💨","🎯","🌱"]],
+["🗣️","बात करने का आपका सामान्य ढंग?",["तेज, उत्साही और बहुत कुछ कहने वाला","सीधा, स्पष्ट और मुद्दे पर","शांत, धीमा और सोचकर"],["Fast, enthusiastic and expressive","Direct, clear and to the point","Calm, slower and thoughtful"],["💬","🔥","🌿"]],
+["🏃","चलने-फिरने का स्वभाव?",["तेज, सक्रिय और बार-बार बदलता हुआ","मध्यम, उद्देश्यपूर्ण और नियमित","धीमा, स्थिर और आराम से"],["Fast, active and changeable","Moderate, purposeful and regular","Slow, steady and relaxed"],["🏃","🎯","🐘"]],
+["💧","त्वचा की सामान्य अनुभूति?",["अक्सर सूखी या खिंची हुई","गर्म या संवेदनशील","नरम, चिकनी या तैलीय"],["Often dry or tight","Warm or sensitive","Soft, smooth or oily"],["🌬️","🔥","💧"]],
+["❤️","तनाव में आपकी पहली सामान्य प्रतिक्रिया?",["चिंता, बेचैनी या बहुत सोचना","चिड़चिड़ापन, तीव्रता या जल्दी प्रतिक्रिया","चुप रहना, धीमा होना या पीछे हटना"],["Worry, restlessness or overthinking","Irritability, intensity or quick reaction","Becoming quiet, slow or withdrawn"],["🌪️","🔥","🌊"]],
+["🍲","भोजन के बाद आपकी सामान्य अनुभूति?",["हल्का महसूस होता है और जल्दी भूख लग सकती है","पाचन तेज महसूस होता है","भारीपन या लंबे समय तक तृप्ति"],["Feel light and may feel hungry sooner","Digestion feels strong or quick","Heaviness or longer-lasting fullness"],["🪶","🔥","💧"]],
+["🌿","इनमें से कौन-सा गुण आपको सबसे अधिक अपना लगता है?",["गति, कल्पना और बदलाव","ऊर्जा, स्पष्टता और परिवर्तन","स्थिरता, धैर्य और पोषण"],["Movement, imagination and change","Energy, clarity and transformation","Steadiness, patience and nourishment"],["🌬️","🔥","💧"]]
 ];
+let step=0,score=[0,0,0],picked=null;
+function openAnalyzer(){step=0;score=[0,0,0];picked=null;renderQ()}
+function renderQ(){let q=qs[step],en=lang==="en";document.getElementById("modal").classList.add("show");document.getElementById("modalBox").innerHTML=`<div class="modalTop"><div><div class="articleMeta">PRAKRITI ANALYZER · ${step+1}/12</div><h2>${q[0]} ${en?["How does your body usually feel?","Which weather experience is more common for you?","How is your appetite usually?","How is your usual sleep?","How does your energy move through the day?","How do you usually learn something new?","How do you usually speak?","How do you usually move?","How does your skin usually feel?","What is your usual first response to stress?","How do you usually feel after food?","Which quality feels most like you?"][step]:q[1]}</h2></div><button class="iconbtn" onclick="closeModal()">✕</button></div><div class="progress"><i style="width:${((step+1)/12)*100}%"></i></div><p class="modalText">${en?"Choose the option that feels closest to your usual pattern. There are no right or wrong answers.":"अपने सामान्य अनुभव के सबसे करीब वाला विकल्प चुनें। यहां कोई सही या गलत उत्तर नहीं है।"}</p>${q[2].map((x,i)=>`<button class="option ${picked===i?"selected":""}" onclick="pick(${i})">${q[4][i]} ${en?q[3][i]:x}</button>`).join("")}<div style="display:flex;justify-content:space-between;gap:10px;margin-top:14px"><button class="btn" onclick="prevQ()" ${step===0?"disabled":""}>← ${en?"Back":"पीछे"}</button><button class="btn primary" onclick="nextQ()">${step===11?(en?"See result":"परिणाम देखें"):(en?"Next →":"आगे →")}</button></div>`}
+function pick(i){picked=i;document.querySelectorAll(".option").forEach((b,n)=>b.classList.toggle("selected",n===i))}
+function nextQ(){if(picked===null){alert(lang==="hi"?"कृपया एक विकल्प चुनें।":"Please choose one option.");return}score[picked]++;if(step===11){result();return}step++;picked=null;renderQ()}
+function prevQ(){if(step>0){step--;picked=null;renderQ()}}
+function result(){let total=score.reduce((a,b)=>a+b,0)||1,pcts=score.map(x=>Math.round(x/total*100)),max=Math.max(...score),idx=score.indexOf(max),names=lang==="hi"?["वात","पित्त","कफ"]:["Vata","Pitta","Kapha"],icons=["🌬️","🔥","💧"],element=lang==="hi"?["वायु","अग्नि","जल"]:["Air","Fire","Water"];document.getElementById("modalBox").innerHTML=`<div class="modalTop"><div><div class="articleMeta">YOUR EDUCATIONAL SNAPSHOT</div><h2>${icons[idx]} ${names[idx]} — ${element[idx]} का visual</h2></div><button class="iconbtn" onclick="closeModal()">✕</button></div><div class="articleHero"><div class="articleArt">${icons[idx]}</div><div><div class="resultScore">${pcts[idx]}%</div><p class="modalText">${lang==="hi"?"आपके उत्तरों में इस गुण से जुड़े विकल्प अधिक चुने गए। इसे पारंपरिक अवधारणा का शैक्षिक snapshot समझें, diagnosis नहीं।":"More of your selected answers aligned with this traditional lens. Treat it as an educational snapshot, not a diagnosis."}</p></div></div>${pcts.map((x,i)=>`<div style="margin:16px 0"><b>${icons[i]} ${names[i]} · ${x}%</b><div class="bar"><i style="width:${x}%;background:${["#2478c8","#d7a83c","#159b65"][i]}"></i></div></div>`).join("")}<div class="share"><button class="btn primary" onclick="shareResult('${names[idx]}',${pcts[idx]})">📤 ${lang==="hi"?"शेयर करें":"Share"}</button><button class="btn" onclick="copyResult('${names[idx]}',${pcts[idx]})">🔗 ${lang==="hi"?"परिणाम कॉपी करें":"Copy result"}</button><button class="btn" onclick="openAnalyzer()">↻ ${lang==="hi"?"फिर से करें":"Try again"}</button></div><div class="ad">ADVERTISEMENT · RESERVED SPACE</div>`}
+async function shareResult(name,pct){let text=`Prakriti & Chrono-Diet\\n${lang==="hi"?"मेरी educational snapshot":"My educational snapshot"}: ${name} ${pct}%`;try{if(navigator.share){await navigator.share({title:"Prakriti & Chrono-Diet",text,url:location.href})}else{await navigator.clipboard.writeText(text+"\\n"+location.href);alert(lang==="hi"?"शेयर टेक्स्ट कॉपी हो गया।":"Share text copied.")}}catch(e){}}
+async function copyResult(name,pct){try{await navigator.clipboard.writeText(`Prakriti & Chrono-Diet — ${name} ${pct}%\\n${location.href}`);alert(lang==="hi"?"परिणाम कॉपी हो गया।":"Result copied.")}catch(e){alert(location.href)}}
 
-const opts=[
-["हल्की और बदलती", "Light and variable", "vata"],
-["तेज और केंद्रित", "Strong and focused", "pitta"],
-["स्थिर और शांत", "Steady and calm", "kapha"]
+/* ---------- FREE SMART PRAKRITI GUIDE ----------
+   Browser-only adaptive reasoning. No API key, account or server is required.
+   It is an educational decision tree, not medical AI/diagnosis.
+*/
+const smartQs=[
+ {id:"body",icon:"🧍",hi:"आपका शरीर सामान्यतः कैसा लगता है?",en:"How does your body usually feel?",
+  a:[
+   ["🪶","हल्का, पतला या जल्दी बदलने वाला","Light, lean or changeable",[3,0,0]],
+   ["🔥","मध्यम, गर्म और सक्रिय","Moderate, warm and active",[0,3,0]],
+   ["💧","भरा हुआ, स्थिर और मजबूत","Full, steady and strong",[0,0,3]]]},
+ {id:"appetite",icon:"🍽️",hi:"भूख का आपका सामान्य ढंग कैसा है?",en:"What is your usual appetite pattern?",
+  a:[
+   ["🌬️","समय और मात्रा बदलती रहती है","Timing and amount can vary",[3,0,0]],
+   ["🔥","तेज और नियमित भूख","Strong and regular appetite",[0,3,0]],
+   ["🌱","धीमी, पर देर तक तृप्ति","Slower, with lasting fullness",[0,0,3]]]},
+ {id:"sleep",icon:"🌙",hi:"आपकी नींद सामान्यतः कैसी रहती है?",en:"How is your usual sleep?",
+  a:[
+   ["🪶","हल्की या जल्दी टूटने वाली","Light or easily interrupted",[3,0,0]],
+   ["☀️","मध्यम और सामान्यतः नियमित","Moderate and generally regular",[0,3,0]],
+   ["🌿","गहरी और लंबी","Deep and longer-lasting",[0,0,3]]]},
+ {id:"energy",icon:"⚡",hi:"दिन की ऊर्जा किस तरह चलती है?",en:"How does your daytime energy usually move?",
+  a:[
+   ["💨","तेज आती-जाती","Quick bursts that change",[3,0,0]],
+   ["🎯","केंद्रित और लगातार सक्रिय","Focused and consistently active",[0,3,0]],
+   ["🐘","धीरे शुरू, लेकिन टिकाऊ","Slow to start but sustained",[0,0,3]]]},
+ {id:"weather",icon:"🌤️",hi:"कौन-सा मौसम आपको अधिक प्रभावित करता है?",en:"Which weather pattern affects you more?",
+  a:[
+   ["❄️","ठंडा और सूखा मौसम","Cold and dry weather",[3,0,0]],
+   ["☀️","गर्म और तेज धूप","Hot, intense sunshine",[0,3,0]],
+   ["🌧️","ठंडा, नम या भारी मौसम","Cool, damp or heavy weather",[0,0,3]]]},
+ {id:"mind",icon:"🧠",hi:"नई बात सीखने का आपका तरीका कैसा है?",en:"How do you usually learn something new?",
+  a:[
+   ["💡","जल्दी समझता/समझती हूँ और आगे बढ़ जाता/जाती हूँ","Learn quickly and move on",[3,0,0]],
+   ["🔎","गहराई से समझकर तुरंत लागू करना","Understand deeply and apply quickly",[0,3,0]],
+   ["🌳","धीरे सीखता/सीखती हूँ, पर लंबे समय तक याद रहता है","Learn slowly but remember for a long time",[0,0,3]]]},
+ {id:"speech",icon:"🗣️",hi:"बात करने का आपका सामान्य ढंग?",en:"What is your usual communication style?",
+  a:[
+   ["💬","तेज, उत्साही और बदलता हुआ","Fast, enthusiastic and changeable",[3,0,0]],
+   ["🎯","सीधा, स्पष्ट और मुद्दे पर","Direct, clear and focused",[0,3,0]],
+   ["🌿","शांत, धीमा और सोचकर","Calm, slower and thoughtful",[0,0,3]]]},
+ {id:"movement",icon:"🏃",hi:"चलने-फिरने का स्वभाव कैसा है?",en:"What is your usual movement style?",
+  a:[
+   ["🏃","तेज और बार-बार बदलता","Fast and frequently changing",[3,0,0]],
+   ["🚶","मध्यम, उद्देश्यपूर्ण और नियमित","Moderate, purposeful and regular",[0,3,0]],
+   ["🐘","धीमा, स्थिर और आराम से","Slow, steady and relaxed",[0,0,3]]]},
+ {id:"skin",icon:"💧",hi:"त्वचा की सामान्य अनुभूति कैसी लगती है?",en:"How does your skin usually feel?",
+  a:[
+   ["🍂","सूखी या खिंची हुई","Dry or tight",[3,0,0]],
+   ["🔥","गर्म या संवेदनशील","Warm or sensitive",[0,3,0]],
+   ["💧","नरम, चिकनी या तैलीय","Soft, smooth or oily",[0,0,3]]]},
+ {id:"stress",icon:"❤️",hi:"तनाव में आपकी पहली सामान्य प्रतिक्रिया क्या होती है?",en:"What is your first usual response to stress?",
+  a:[
+   ["🌪️","चिंता, बेचैनी या बहुत सोचना","Worry, restlessness or overthinking",[3,0,0]],
+   ["🔥","चिड़चिड़ापन या तीव्र प्रतिक्रिया","Irritability or an intense response",[0,3,0]],
+   ["🌊","चुप होना या पीछे हटना","Becoming quiet or withdrawn",[0,0,3]]]},
+ {id:"food",icon:"🥣",hi:"भोजन के बाद सामान्यतः क्या महसूस होता है?",en:"How do you usually feel after eating?",
+  a:[
+   ["🪶","हल्का, और जल्दी भूख लग सकती है","Light, and hunger may return sooner",[3,0,0]],
+   ["🔥","पाचन तेज महसूस होता है","Digestion feels strong or quick",[0,3,0]],
+   ["💧","भारीपन या लंबे समय तक तृप्ति","Heaviness or lasting fullness",[0,0,3]]]},
+ {id:"routine",icon:"🕰️",hi:"आपकी दिनचर्या में बदलाव का असर कैसा होता है?",en:"How do changes in routine affect you?",
+  a:[
+   ["🌬️","बदलाव मुझे आसानी से हिला देता है","Changes affect me easily",[3,0,0]],
+   ["🔥","मैं जल्दी adjust करके काम जारी रखता/रखती हूँ","I adjust quickly and keep going",[0,3,0]],
+   ["🌱","मुझे स्थिर routine ज्यादा पसंद है","I prefer a stable routine",[0,0,3]]]},
+ {id:"temperature",icon:"🌡️",hi:"आपको तापमान में कौन-सा अनुभव अधिक मिलता है?",en:"How do you usually experience temperature?",
+  a:[
+   ["❄️","मुझे ठंड जल्दी लगती है","I tend to feel cold quickly",[3,0,0]],
+   ["☀️","मुझे गर्मी जल्दी लगती है","I tend to feel hot quickly",[0,3,0]],
+   ["🌿","मुझे सामान्यतः स्थिर/आरामदायक लगता है","It usually feels steady or comfortable",[0,0,3]]]},
+ {id:"pace",icon:"⏱️",hi:"काम करने की आपकी प्राकृतिक गति?",en:"What is your natural work pace?",
+  a:[
+   ["⚡","बहुत तेज, फिर बदलाव","Very fast, then changing",[3,0,0]],
+   ["🎯","तेज और लक्ष्य-केंद्रित","Fast and goal-focused",[0,3,0]],
+   ["🐢","धीमी, स्थिर और धैर्यपूर्ण","Slow, steady and patient",[0,0,3]]]},
+ {id:"memory",icon:"🧩",hi:"आप चीजें याद कैसे रखते हैं?",en:"How do you tend to remember things?",
+  a:[
+   ["🪽","जल्दी याद, जल्दी बदल सकता है","Quick to remember, quick to change",[3,0,0]],
+   ["🔥","समझने पर स्पष्ट रूप से याद","Clear once I understand it",[0,3,0]],
+   ["🌳","धीरे, लेकिन बहुत लंबे समय तक","Slowly, but for a long time",[0,0,3]]]},
+ {id:"rest",icon:"🛋️",hi:"आराम के समय आपको क्या सबसे स्वाभाविक लगता है?",en:"What feels most natural when you rest?",
+  a:[
+   ["🚶","कुछ नया करना या घूमना","Doing something new or moving around",[3,0,0]],
+   ["📚","कुछ सीखना, पढ़ना या योजना बनाना","Learning, reading or planning",[0,3,0]],
+   ["🛌","शांत रहना, आराम करना या सोना","Being still, resting or sleeping",[0,0,3]]]},
+ {id:"choice",icon:"🌿",hi:"इन तीन गुणों में आपको कौन-सा अपने करीब लगता है?",en:"Which quality feels closest to you?",
+  a:[
+   ["🌬️","गति, रचनात्मकता और बदलाव","Movement, creativity and change",[3,0,0]],
+   ["🔥","ऊर्जा, स्पष्टता और परिवर्तन","Energy, clarity and transformation",[0,3,0]],
+   ["💧","स्थिरता, धैर्य और पोषण","Steadiness, patience and nourishment",[0,0,3]]]}
 ];
+let smart={asked:[],scores:[0,0,0],selected:null,max:12};
 
-let lang=localStorage.getItem("pcd-lang")||"hi";
-let theme=localStorage.getItem("pcd-theme")||"light";
-let q=0, answers=[];
-
-function applyTheme(){
-  document.documentElement.dataset.theme = theme==="dark"?"dark":theme==="white"?"white":"";
-  const icon = theme==="dark"?"●":theme==="white"?"○":"☀";
-  document.querySelectorAll("#themeBtn,#themeBtn2").forEach(b=>b.textContent=icon);
+function smartName(i){return lang==="hi"?["वात","पित्त","कफ"][i]:["Vata","Pitta","Kapha"][i]}
+function smartElement(i){return lang==="hi"?["वायु","अग्नि","जल"][i]:["Air","Fire","Water"][i]}
+function smartPickQuestion(){
+ const unused=smartQs.filter(q=>!smart.asked.includes(q.id));
+ if(!unused.length)return null;
+ if(smart.asked.length<6)return unused[Math.floor(Math.random()*unused.length)];
+ const avg=smart.scores.reduce((a,b)=>a+b,0)/3;
+ const low=smart.scores.indexOf(Math.min(...smart.scores));
+ const pool=unused.filter(q=>q.a.some(a=>a[3][low]>=3));
+ return (pool.length?pool:unused)[Math.floor(Math.random()*(pool.length?pool:unused).length)];
+}
+function openSmartGuide(){
+ smart={asked:[],scores:[0,0,0],selected:null,max:12};
+ document.getElementById("modal").classList.add("show");
+ renderSmartIntro();
+}
+function renderSmartIntro(){
+ const en=lang==="en";
+ document.getElementById("modalBox").innerHTML=`<div class="modalTop"><div><div class="aiBadge">✨ ${en?"FREE SMART GUIDE":"मुफ्त स्मार्ट प्रकृति गाइड"}</div><h2>${en?"Talk to your nature, one question at a time.":"अपनी प्रकृति से बातचीत शुरू करें।"}</h2></div><button class="iconbtn" onclick="closeModal()">✕</button></div>
+ <div class="aiModeIntro"><div class="aiOrb">🌿</div><div><h3>${en?"Adaptive Prakriti conversation":"अनुकूलित प्रकृति संवाद"}</h3><p class="modalText">${en?"This browser-only guide chooses follow-up questions from your previous answers. No account, API key or server is required. It is an educational traditional-concept tool, not a medical diagnosis.":"यह गाइड आपके पिछले उत्तरों के आधार पर अगला सवाल चुनता है। किसी खाते, एपीआई कुंजी या सर्वर की जरूरत नहीं है। यह पारंपरिक अवधारणाओं को समझने का शैक्षिक उपकरण है, चिकित्सा निदान नहीं।"}</p></div></div>
+ <div class="aiMeta"><span class="aiBadge">🔒 ${en?"Private in your browser":"उत्तर आपके ब्राउज़र में रहते हैं"}</span><span class="aiBadge">🧠 ${en?"Adaptive questions":"अलग-अलग follow-up questions"}</span><span class="aiBadge">📱 ${en?"Mobile friendly":"मोबाइल के लिए तैयार"}</span></div>
+ <div class="share"><button class="btn primary" onclick="renderSmartQuestion()">✨ ${en?"Begin conversation":"संवाद शुरू करें"}</button><button class="btn" onclick="closeModal()">${en?"Not now":"अभी नहीं"}</button></div>`;
+}
+function renderSmartQuestion(){
+ const q=smartPickQuestion();
+ if(!q){renderSmartResult();return}
+ smart.current=q;
+ const n=smart.asked.length+1, en=lang==="en";
+ document.getElementById("modalBox").innerHTML=`<div class="modalTop"><div><div class="aiBadge">✨ ${en?"SMART GUIDE":"स्मार्ट गाइड"} · ${n}</div><h2 class="aiQuestion">${q.icon} ${en?q.en:q.hi}</h2></div><button class="iconbtn" onclick="closeModal()">✕</button></div>
+ <div class="progress"><i style="width:${Math.min(100,(n/12)*100)}%"></i></div>
+ <p class="modalText">${en?"Choose the answer closest to your usual pattern. The next question may change based on your answer.":"अपने सामान्य अनुभव के सबसे करीब उत्तर चुनें। आपका उत्तर अगला सवाल बदल सकता है।"}</p>
+ ${q.a.map((a,i)=>`<button class="aiChoice ${smart.selected===i?"selected":""}" onclick="smartChoose(${i})"><span class="aiChoiceIcon">${a[0]}</span><span><b>${en?a[2]:a[1]}</b><small style="display:block;color:var(--muted);margin-top:4px">${en?a[1]:a[2]}</small></span></button>`).join("")}
+ <div class="share"><button class="btn" onclick="smartSkip()">${en?"Skip":"छोड़ें"}</button><button class="btn primary" onclick="smartNext()">${en?"Continue →":"आगे →"}</button></div>
+ <p class="modalText" style="font-size:13px">💡 ${en?"You can stop after 8+ answers if the result feels clear.":"8 या अधिक उत्तरों के बाद यदि परिणाम स्पष्ट लगे तो आप कभी भी परिणाम देख सकते हैं।"}</p>`;
+}
+function smartChoose(i){smart.selected=i;document.querySelectorAll(".aiChoice").forEach((b,n)=>b.classList.toggle("selected",n===i))}
+function smartNext(){
+ if(smart.selected===null){alert(lang==="hi"?"कृपया एक उत्तर चुनें।":"Please choose an answer.");return}
+ const q=smart.current,a=q.a[smart.selected];
+ a[3].forEach((v,i)=>smart.scores[i]+=v);
+ smart.asked.push(q.id);smart.selected=null;
+ if(smart.asked.length>=8){
+   const sorted=[...smart.scores].sort((a,b)=>b-a);
+   const gap=sorted[0]-sorted[1];
+   if(smart.asked.length>=12 || gap>=4){renderSmartCheckpoint();return}
+ }
+ renderSmartQuestion();
+}
+function smartSkip(){smart.asked.push(smart.current.id);smart.selected=null;renderSmartQuestion()}
+function renderSmartCheckpoint(){
+ const en=lang==="en",total=Math.max(1,smart.scores.reduce((a,b)=>a+b,0));
+ const pct=smart.scores.map(x=>Math.round(x/total*100));
+ const idx=smart.scores.indexOf(Math.max(...smart.scores));
+ document.getElementById("modalBox").innerHTML=`<div class="modalTop"><div><div class="aiBadge">✨ ${en?"CHECK-IN":"एक छोटा check-in"}</div><h2>${en?"Does this feel like enough?":"क्या आपको अभी इतना परिणाम पर्याप्त लगता है?"}</h2></div><button class="iconbtn" onclick="closeModal()">✕</button></div>
+ <div class="aiResultGrid"><div class="confidenceRing" style="--confidence:${Math.min(92,Math.max(55,pct[idx]+12))}%"><b>${Math.min(92,Math.max(55,pct[idx]+12))}%</b></div><div><h3>${en?"Current leading lens: ":"अभी सबसे प्रमुख संकेत: "}${smartName(idx)}</h3><p class="modalText">${en?"You can see the result now, or answer a few more adaptive questions for a steadier educational snapshot.":"आप अभी परिणाम देख सकते हैं, या कुछ और अलग follow-up questions देकर snapshot को और स्पष्ट कर सकते हैं।"}</p></div></div>
+ <div class="share"><button class="btn primary" onclick="renderSmartResult()">🌿 ${en?"Show my result":"मेरा परिणाम दिखाएँ"}</button><button class="btn" onclick="renderSmartQuestion()">🧠 ${en?"Ask me more":"और सवाल पूछें"}</button></div>`;
+}
+function renderSmartResult(){
+ const en=lang==="en",total=Math.max(1,smart.scores.reduce((a,b)=>a+b,0));
+ const pct=smart.scores.map(x=>Math.round(x/total*100)),idx=smart.scores.indexOf(Math.max(...smart.scores));
+ const icons=["🌬️","🔥","💧"],cls=["air","fire","water"];
+ const level=Math.min(94,Math.max(55,pct[idx]+10));
+ document.getElementById("modalBox").innerHTML=`<div class="modalTop"><div><div class="aiBadge">✨ ${en?"YOUR SMART SNAPSHOT":"आपका स्मार्ट प्रकृति snapshot"}</div><h2>${icons[idx]} ${smartName(idx)} · ${smartElement(idx)}</h2></div><button class="iconbtn" onclick="closeModal()">✕</button></div>
+ <div class="aiResultGrid"><div class="confidenceRing" style="--confidence:${level}%"><b>${level}%</b></div><div><h3>${en?"Your leading traditional lens":"आपका प्रमुख पारंपरिक संकेत"}: ${smartName(idx)}</h3><p class="modalText">${en?"This is a pattern-based educational result from your answers, not a medical diagnosis or fixed identity.":"यह आपके उत्तरों से बना pattern-based शैक्षिक परिणाम है; इसे चिकित्सा निदान या आपकी स्थायी पहचान न मानें।"}</p></div></div>
+ <div class="elementGrid">${pct.map((x,i)=>`<div class="elementCard"><div class="elementOrb ${cls[i]}">${icons[i]}</div><b>${smartName(i)}</b><div style="font-size:13px;color:var(--muted);margin:4px 0">${smartElement(i)}</div><div class="bar"><i style="width:${x}%;background:${["#2478c8","#d7a83c","#159b65"][i]}"></i></div><strong>${x}%</strong></div>`).join("")}</div>
+ <div class="articleHero"><div class="articleArt">${icons[idx]}</div><div><h3>${en?"What this traditional lens is often described as":"इस पारंपरिक संकेत को सामान्यतः कैसे समझाया जाता है"}</h3><p class="modalText">${smartDescription(idx)}</p></div></div>
+ <div class="share"><button class="btn primary" onclick="shareSmartResult(${idx},${pct[idx]})">📤 ${en?"Share result":"परिणाम शेयर करें"}</button><button class="btn" onclick="copySmartResult(${idx},${pct[idx]})">🔗 ${en?"Copy share card text":"शेयर टेक्स्ट कॉपी करें"}</button><button class="btn" onclick="openSmartGuide()">↻ ${en?"Start again":"फिर से शुरू करें"}</button></div>
+ <div class="ad">ADVERTISEMENT · RESERVED SPACE</div>`;
+}
+function smartDescription(i){
+ const hi=[
+ "वात को पारंपरिक आयुर्वेदिक भाषा में गति, परिवर्तन और हल्केपन से जोड़ा जाता है। यह केवल शैक्षिक व्याख्या है; भोजन, उपचार या बीमारी के बारे में व्यक्तिगत निष्कर्ष इससे नहीं निकाले जाने चाहिए।",
+ "पित्त को पारंपरिक आयुर्वेदिक भाषा में ऊर्जा, परिवर्तन और गर्माहट से जोड़ा जाता है। यह एक सांस्कृतिक/शैक्षिक lens है, चिकित्सा सलाह या diagnosis नहीं।",
+ "कफ को पारंपरिक आयुर्वेदिक भाषा में स्थिरता, पोषण और भारीपन से जोड़ा जाता है। इसे केवल पारंपरिक अवधारणा समझें, किसी health condition का प्रमाण नहीं।"
+ ],en=[
+ "In traditional Ayurvedic language, Vata is often associated with movement, change and lightness. This is educational context, not a basis for personal medical conclusions.",
+ "In traditional Ayurvedic language, Pitta is often associated with energy, transformation and warmth. This is an educational lens, not medical advice or diagnosis.",
+ "In traditional Ayurvedic language, Kapha is often associated with steadiness, nourishment and heaviness. Treat this as a traditional concept, not evidence of a health condition."
+ ];
+ return (lang==="hi"?hi:en)[i];
+}
+async function shareSmartResult(idx,pct){
+ const en=lang==="en",text=`Prakriti & Chrono-Diet — ${smartName(idx)} (${smartElement(idx)}) ${pct}%\n${en?"Free educational Prakriti snapshot. Not a medical diagnosis.":"मुफ्त शैक्षिक प्रकृति snapshot। यह चिकित्सा निदान नहीं है।"}`;
+ try{if(navigator.share){await navigator.share({title:"Prakriti & Chrono-Diet",text,url:location.href})}else{await navigator.clipboard.writeText(text+"\n"+location.href);alert(en?"Share text copied.":"शेयर टेक्स्ट कॉपी हो गया।")}}catch(e){}
+}
+async function copySmartResult(idx,pct){
+ const en=lang==="en",text=`🌿 Prakriti & Chrono-Diet\n${smartName(idx)} · ${smartElement(idx)} · ${pct}%\n${en?"Educational snapshot — not a medical diagnosis.":"शैक्षिक snapshot — चिकित्सा निदान नहीं।"}\n${location.href}`;
+ try{await navigator.clipboard.writeText(text);alert(en?"Share card text copied.":"शेयर कार्ड का टेक्स्ट कॉपी हो गया।")}catch(e){prompt(en?"Copy this text:":"यह टेक्स्ट कॉपी करें:",text)}
 }
 
-function applyLang(){
-  document.documentElement.lang=lang;
-  document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.dataset.i18n;if(T[lang][k])el.textContent=T[lang][k]});
-  document.querySelectorAll("[data-i18n-html]").forEach(el=>{const k=el.dataset.i18nHtml;if(T[lang][k])el.innerHTML=T[lang][k]});
-  document.querySelectorAll("#langBtn,#langBtn2").forEach(b=>b.textContent=lang==="hi"?"हिंदी":"English");
-  renderSeasons(); 
-  renderQuestion();
-}
-
-function toggleLang(){
-  lang = lang==="hi"?"en":"hi";
-  localStorage.setItem("pcd-lang",lang);
-  applyLang();
-}
-
-function toggleTheme(){
-  theme = theme==="light"?"white":theme==="white"?"dark":"light";
-  localStorage.setItem("pcd-theme",theme);
-  applyTheme();
-}
-
-function renderSeasons(){
-  const g=document.getElementById("seasonGrid");
-  g.innerHTML=seasons.map(s=>`<article class="card season-card"><div class="icon">${s[0]}</div><h3>${lang==="hi"?s[1]:s[2]}</h3><div class="small" style="color:rgba(255,255,255,.7)">${lang==="hi"?s[2]:s[1]}</div><p class="small" style="color:rgba(255,255,255,.82)">${lang==="hi"?s[3]:s[4]}</p><button class="secondary" style="padding:8px 12px" onclick="alert('${lang==="hi"?"यह अभी educational demo है।":"This is currently an educational demo."}')">${lang==="hi"?"जानें":"Explore"}</button></article>`).join("");
-}
-
-function setClock(type){
-  const names={
-    morning:[T[lang].morning, lang==="hi"?"दिन की शुरुआत को सरल और सहज रखें।":"Keep the beginning of the day simple and gentle."],
-    afternoon:[T[lang].afternoon, lang==="hi"?"दिन के मध्य में अपने भोजन और ऊर्जा पर ध्यान दें।":"Notice your meal and energy around the middle of the day."],
-    evening:[T[lang].evening, lang==="hi"?"शाम को गति धीरे-धीरे कम करने का समय समझें।":"Let the evening gradually become less stimulating."],
-    night:[T[lang].night, lang==="hi"?"रात को विश्राम और नींद के लिए जगह दें।":"Make space for rest and sleep at night."]
-  };
-  document.getElementById("clockTitle").textContent=names[type][0];
-  document.getElementById("clockText").textContent=names[type][1];
-}
-
-function renderQuestion(){
-  const title=document.getElementById("qTitle");
-  if(!title) return;
-  document.getElementById("quizContent").style.display = "block";
-  document.getElementById("resultContent").style.display = "none";
-  document.getElementById("modalEyebrow").textContent = lang==="hi"?"PRAKRITI ANALYZER":"PRAKRITI ANALYZER";
-  
-  title.textContent=lang==="hi"?qs[q][0]:qs[q][1];
-  document.getElementById("qCount").textContent=`${q+1} / ${qs.length}`;
-  document.getElementById("qProgress").style.width=((q+1)/qs.length*100)+"%";
-  document.getElementById("options").innerHTML=opts.map((o,i)=>`<button class="option ${answers[q]===o[2]?"selected":""}" onclick="choose('${o[2]}')">${lang==="hi"?o[0]:o[1]}</button>`).join("");
-  document.getElementById("prevQ").style.display = q===0 ? "none" : "inline-block";
-  document.getElementById("nextQ").textContent=q===qs.length-1?(lang==="hi"?"परिणाम देखें":"See Result"):(lang==="hi"?"आगे →":"Next →");
-}
-
-function choose(v){
-  answers[q]=v;
-  renderQuestion();
-}
-
-function openAnalyzer(){
-  document.getElementById("modal").classList.add("open");
-  q=0;
-  answers=[];
-  renderQuestion();
-}
-
-function nextQuestion(){
-  if(!answers[q]){
-    alert(lang==="hi"?"कृपया एक विकल्प चुनें।":"Please choose an option.");
-    return;
-  }
-  if(q < qs.length-1){
-    q++;
-    renderQuestion();
-  } else {
-    showResult();
-  }
-}
-
-function showResult(){
-  const count={vata:0, pitta:0, kapha:0};
-  answers.forEach(x=>count[x]++);
-  const best=Object.keys(count).sort((a,b)=>count[b]-count[a])[0];
-  
-  const resultsData = {
-    vata: {
-      icon: "🌬️",
-      titleHI: "आपकी प्रधान प्रकृति: वात (Vata)",
-      titleEN: "Your Dominant Prakriti: Vata",
-      descHI: "आपकी प्रवृत्ति में गतिशीलता, रचनात्मकता और ऊर्जा का सुंदर संतुलन है। आपके विचार तेज और नए दृष्टिकोण वाले होते हैं।",
-      descEN: "Your profile reflects natural creativity, alertness, and dynamic energy.",
-      tipHI: "सुझाव: नियमित दिनचर्या, गर्म और ताज़ा भोजन तथा पर्याप्त विश्राम आपके लिए बहुत लाभदायक हो सकता है।",
-      tipEN: "Tip: A consistent daily routine, warm and nourishing meals, and adequate rest support your well-being."
-    },
-    pitta: {
-      icon: "☀️",
-      titleHI: "आपकी प्रधान प्रकृति: पित्त (Pitta)",
-      titleEN: "Your Dominant Prakriti: Pitta",
-      descHI: "आपकी प्रवृत्ति में तीव्र ऊष्मा, नेतृत्व क्षमता और focused दृष्टिकोण झलकता है। आप हर काम को लगन से करते हैं।",
-      descEN: "Your profile reflects strong focus, natural leadership, and dynamic metabolic energy.",
-      tipHI: "सुझाव: शीतलता प्रदान करने वाले आहार, पर्याप्त हाइड्रेशन और मानसिक शांति आपके लिए संतुलन बनाते हैं।",
-      tipEN: "Tip: Cooling foods, proper hydration, and moments of calm help maintain your inner balance."
-    },
-    kapha: {
-      icon: "💧",
-      titleHI: "आपकी प्रधान प्रकृति: कफ (Kapha)",
-      titleEN: "Your Dominant Prakriti: Kapha",
-      descHI: "आपकी प्रवृत्ति में स्थिरता, सहनशीलता, और गहरा पोषण देने वाला शांत स्वभाव शामिल है। आप भरोसेमंद और शांतचित्त हैं।",
-      descEN: "Your profile reflects natural stability, grounded patience, and steady endurance.",
-      tipHI: "सुझाव: हल्का और सुपाच्य भोजन, नियमित सक्रियता (Physical activity) और नई दिनचर्या का अभ्यास आपके लिए उत्तम है।",
-      tipEN: "Tip: Light and warm meals, regular physical movement, and active routines support your daily energy."
-    }
-  };
-
-  const res = resultsData[best];
-  document.getElementById("quizContent").style.display = "none";
-  document.getElementById("modalEyebrow").textContent = lang==="hi"?"आपका व्यक्तिगत परिणाम":"Your Personalized Result";
-  
-  const resDiv = document.getElementById("resultContent");
-  resDiv.style.display = "block";
-  resDiv.innerHTML = `
-    <div class="result-box">
-      <div class="result-icon">${res.icon}</div>
-      <div class="result-title">${lang==="hi"?res.titleHI:res.titleEN}</div>
-      <p class="result-desc">${lang==="hi"?res.descHI:res.descEN}</p>
-      <div class="result-tip">
-        <strong>🌿 ${lang==="hi"?"सुझाव व समझ":"Wellness Insight"}:</strong><br>
-        ${lang==="hi"?res.tipHI:res.tipEN}
-      </div>
-      <p class="small" style="margin-bottom:20px;">${lang==="hi"?"यह परिणाम केवल पारंपरिक शैक्षिक wellness अवधारणाओं पर आधारित है।":"This result is based on traditional educational wellness concepts only."}</p>
-      <button class="cta" onclick="document.getElementById('modal').classList.remove('open')">${lang==="hi"?"धन्यवाद, समझ गया":"Got it, thank you!"}</button>
-    </div>
-  `;
-}
-
-document.getElementById("langBtn").onclick=toggleLang;
-document.getElementById("langBtn2").onclick=toggleLang;
-document.getElementById("themeBtn").onclick=toggleTheme;
-document.getElementById("themeBtn2").onclick=toggleTheme;
-document.getElementById("menuBtn").onclick=()=>document.getElementById("drawer").classList.toggle("open");
-document.getElementById("startBtn").onclick=openAnalyzer;
-document.getElementById("heroStart").onclick=openAnalyzer;
-document.getElementById("closeModal").onclick=()=>document.getElementById("modal").classList.remove("open");
-document.getElementById("nextQ").onclick=nextQuestion;
-document.getElementById("prevQ").onclick=()=>{if(q>0){q--;renderQuestion()}};
-document.querySelectorAll(".clock button").forEach(b=>b.onclick=()=>setClock(b.dataset.time));
-document.getElementById("clockReset").onclick=()=>setClock("morning");
-
-applyTheme();
-applyLang();
-
-if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}
+function openSeason(id){let s=seasons.find(x=>x.id===id);document.getElementById("modal").classList.add("show");document.getElementById("modalBox").innerHTML=seasonArticle(s)}
+const policy={
+about:{hi:["About Us","Prakriti & Chrono-Diet एक bilingual educational wellness project है। हमारा उद्देश्य पारंपरिक Prakriti, daily rhythm और seasonal living जैसे विषयों को सरल भाषा और visual learning के माध्यम से समझाना है। यह platform medical diagnosis, treatment या emergency service नहीं है."],en:["About Us","Prakriti & Chrono-Diet is a bilingual educational wellness project. We aim to make traditional Prakriti concepts, daily rhythms and seasonal living easier to explore through clear language and visual learning. This platform is not a medical diagnosis, treatment or emergency service."]},
+contact:{hi:["Contact","संपर्क के लिए अपने verified project email को यहाँ प्रकाशित करें। व्यक्तिगत स्वास्थ्य जानकारी या संवेदनशील medical records ईमेल द्वारा न भेजें।"],en:["Contact","Publish your verified project email here before launch. Please do not send personal health information or sensitive medical records by email."]},
+faq:{hi:["FAQ","प्रश्न: क्या यह diagnosis है? उत्तर: नहीं। यह educational snapshot है। प्रश्न: क्या परिणाम निश्चित है? नहीं। पारंपरिक प्रकृति की अवधारणा को समझने के लिए इसे केवल एक learning tool मानें। प्रश्न: क्या बच्चों और बुजुर्गों के लिए यह medical advice है? नहीं। विशेष परिस्थितियों में qualified professional से सलाह लें।"],en:["FAQ","Is this a diagnosis? No. It is an educational snapshot. Is the result definitive? No. Treat it as a learning tool for exploring a traditional concept. Is it medical advice for children or older adults? No. Seek qualified professional guidance for special circumstances."]},
+sources:{hi:["Sources & Method","Analyzer में तीन response groups का सरल rule-based scoring इस्तेमाल होता है। यह validated clinical diagnostic test नहीं है। अंतिम production release में जिन आयुर्वेदिक ग्रंथों, nutrition references और modern scientific sources का उपयोग किया जाएगा, उनकी अलग bibliography प्रकाशित की जाएगी।"],en:["Sources & Method","The analyzer uses a simple three-group rule-based score. It is not a validated clinical diagnostic test. Before production release, the specific Ayurvedic texts, nutrition references and modern scientific sources used for educational content should be listed in a public bibliography."]},
+privacy:{hi:["Privacy Policy","हम analyzer के उत्तरों को इस single-file prototype में server पर भेजते नहीं हैं; scoring browser में होती है। Production में analytics, advertising, contact forms या accounts जोड़ने से पहले वास्तविक data flows के अनुसार इस policy को update करना आवश्यक है। यदि Google advertising products उपयोग किए जाते हैं, privacy policy में cookies, identifiers, ad personalization, data sharing और applicable consent choices स्पष्ट रूप से बताने होंगे।"],en:["Privacy Policy","In this single-file prototype, analyzer answers are scored in the browser and are not sent to our server. Before production, this policy must be updated to match any analytics, advertising, contact forms or accounts actually implemented. If Google advertising products are used, the policy should clearly disclose cookies, identifiers, ad personalization, data sharing and applicable consent choices."]},
+terms:{hi:["Terms & Conditions","इस website का उपयोग शैक्षिक जानकारी के लिए करें। Content को medical diagnosis, prescription या treatment plan न मानें। गलत, पुरानी या अधूरी जानकारी की संभावना को समझें और महत्वपूर्ण health decisions के लिए qualified professional से सलाह लें। Third-party links, advertisements और affiliate links अलग सेवाओं की शर्तों के अधीन हो सकते हैं।"],en:["Terms & Conditions","Use this website for educational information. Do not treat content as a medical diagnosis, prescription or treatment plan. Information can be incomplete or outdated; seek qualified professional advice for important health decisions. Third-party links, advertisements and affiliate links may be governed by separate terms."]},
+disclaimer:{hi:["Wellness Disclaimer","यह platform general educational wellness information देता है। यह किसी बीमारी का diagnosis, prevention, cure या treatment claim नहीं करता। किसी emergency या गंभीर symptom में appropriate healthcare service से संपर्क करें।"],en:["Wellness Disclaimer","This platform provides general educational wellness information. It does not diagnose, prevent, cure or treat disease. For emergencies or concerning symptoms, contact an appropriate healthcare service."]},
+cookies:{hi:["Cookie & Ads Notice","यदि भविष्य में Google AdSense या अन्य advertising tools जोड़े जाते हैं, तो वास्तविक cookies, local storage, analytics, ad identifiers और consent flows के अनुसार इस notice को update करना होगा। Ads को content या navigation button जैसा दिखाकर accidental clicks नहीं करवाए जाएंगे।"],en:["Cookie & Ads Notice","If Google AdSense or other advertising tools are added, this notice must be updated to match the actual cookies, local storage, analytics, ad identifiers and consent flows. Ads should never be designed to resemble content or navigation in a way that encourages accidental clicks."]}}
+function openPolicy(id){let p=policy[id][lang];document.getElementById("modal").classList.add("show");document.getElementById("modalBox").innerHTML=`<div class="modalTop"><div><div class="articleMeta">INFORMATION</div><h2>${p[0]}</h2></div><button class="iconbtn" onclick="closeModal()">✕</button></div><div class="policy"><p class="modalText">${p[1]}</p><p class="modalText">${lang==="hi"?"यह prototype है। Production launch से पहले कानूनी, privacy और advertising configuration को वास्तविक business setup के अनुसार review करें।":"This is a prototype. Before production launch, review legal, privacy and advertising configuration against the real business setup."}</p></div><button class="btn primary" onclick="closeModal()">OK</button>`}
+function closeModal(){document.getElementById("modal").classList.remove("show")}
+function setTheme(t){document.documentElement.dataset.theme=t;localStorage.setItem("pcd-theme",t)}
+setTheme(localStorage.getItem("pcd-theme")||"light");applyLang();
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
 </script>
-</body>
-</html>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}</script></body></html>
