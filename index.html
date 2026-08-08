@@ -72,10 +72,6 @@
     .clock-center{position:absolute;inset:24%;border-radius:50%;background:var(--surface);display:grid;place-items:center;text-align:center;padding:25px;box-shadow:var(--shadow)}
     .clock button{position:absolute;border:0;background:var(--surface);color:var(--text);width:86px;height:86px;border-radius:50%;box-shadow:var(--shadow);font-weight:800;cursor:pointer}
     .c1{top:5%;left:42%}.c2{right:5%;top:42%}.c3{bottom:5%;left:42%}.c4{left:5%;top:42%}
-    .time-list{display:grid;gap:12px}
-    .time-item{display:grid;grid-template-columns:95px 1fr;gap:18px;padding:18px;border:1px solid var(--border);border-radius:18px;background:var(--surface);cursor:pointer}
-    .time-item.active{border-color:var(--green);box-shadow:0 0 0 3px color-mix(in srgb,var(--green) 12%,transparent)}
-    .time{color:var(--blue);font-size:13px;font-weight:800}
     .season-section{background:var(--green);color:white}
     .season-section .muted{color:rgba(255,255,255,.78)}
     .season-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.28);box-shadow:none}
@@ -92,9 +88,17 @@
     .drawer{display:none}
     .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;place-items:center;z-index:100;padding:20px}
     .modal.open{display:grid}
-    .modal-card{background:var(--surface);color:var(--text);width:min(680px,100%);max-height:90vh;overflow:auto;border-radius:24px;padding:25px}
-    .qbar{height:8px;background:var(--surface2);border-radius:99px;overflow:hidden}.qbar>i{display:block;height:100%;background:var(--green);width:0}
-    .options{display:grid;gap:10px;margin:18px 0}.option{padding:14px;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:15px;text-align:left;cursor:pointer}.option.selected{border-color:var(--green);background:color-mix(in srgb,var(--green) 10%,var(--surface))}
+    .modal-card{background:var(--surface);color:var(--text);width:min(680px,100%);max-height:90vh;overflow:auto;border-radius:24px;padding:30px;box-shadow:0 20px 40px rgba(0,0,0,.2)}
+    .qbar{height:8px;background:var(--surface2);border-radius:99px;overflow:hidden;margin:15px 0}.qbar>i{display:block;height:100%;background:var(--green);width:0;transition:width 0.3s ease}
+    .options{display:grid;gap:10px;margin:18px 0}.option{padding:14px;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:15px;text-align:left;cursor:pointer;transition:all 0.2s}.option:hover{border-color:var(--green)}.option.selected{border-color:var(--green);background:color-mix(in srgb,var(--green) 10%,var(--surface));font-weight:600}
+    
+    /* Result card styling */
+    .result-box{text-align:center;padding:10px 0}
+    .result-icon{font-size:64px;margin-bottom:15px}
+    .result-title{font-size:28px;font-weight:800;color:var(--green);margin-bottom:10px}
+    .result-desc{font-size:16px;color:var(--muted);margin-bottom:20px;line-height:1.7}
+    .result-tip{background:var(--surface2);padding:16px;border-radius:16px;text-align:left;margin-bottom:20px;border-left:4px solid var(--green)}
+
     @media(max-width:850px){
       nav,.controls .cta{display:none}.menu{display:block}.hero{padding-top:50px}.hero-grid,.chrono{grid-template-columns:1fr}.visual-wrap{min-height:350px}.grid3{grid-template-columns:1fr}.grid6{grid-template-columns:repeat(2,1fr)}.food-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr 1fr}
       .drawer{position:absolute;top:72px;left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);padding:16px;display:none}.drawer.open{display:grid;gap:10px}.drawer a{padding:12px;border-radius:12px}.drawer a:hover{background:var(--surface2)}
@@ -102,7 +106,6 @@
     @media(max-width:520px){
       .container{width:min(calc(100% - 22px),var(--max))}.grid6{grid-template-columns:1fr}.food-grid{grid-template-columns:1fr 1fr}.footer-grid{grid-template-columns:1fr}h1{font-size:48px}.orb{width:290px}.orbit{width:330px}.clock{width:320px}.clock button{width:70px;height:70px;font-size:12px}
     }
-    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
   </style>
 </head>
 <body>
@@ -228,13 +231,26 @@
   <div class="container small" style="border-top:1px solid var(--border);margin-top:28px;padding-top:18px">© 2026 Prakriti & Chrono-Diet</div>
 </footer>
 
+<!-- Modal / Analyzer Popup -->
 <div class="modal" id="modal">
   <div class="modal-card">
-    <div style="display:flex;justify-content:space-between;gap:15px;align-items:center"><div><div class="eyebrow">PRAKRITI ANALYZER</div><h2 id="qTitle">आपकी सामान्य पसंद क्या है?</h2></div><button class="control" id="closeModal">✕</button></div>
-    <div class="qbar"><i id="qProgress"></i></div>
-    <p class="small" id="qCount"></p>
-    <div class="options" id="options"></div>
-    <div style="display:flex;justify-content:space-between;gap:10px"><button class="secondary" id="prevQ">←</button><button class="cta" id="nextQ">आगे →</button></div>
+    <div style="display:flex;justify-content:space-between;gap:15px;align-items:center">
+      <div><div class="eyebrow" id="modalEyebrow">PRAKRITI ANALYZER</div><h2 id="qTitle">आपकी सामान्य पसंद क्या है?</h2></div>
+      <button class="control" id="closeModal">✕</button>
+    </div>
+    
+    <div id="quizContent">
+      <div class="qbar"><i id="qProgress"></i></div>
+      <p class="small" id="qCount"></p>
+      <div class="options" id="options"></div>
+      <div style="display:flex;justify-content:space-between;gap:10px;margin-top:20px">
+        <button class="secondary" id="prevQ">←</button>
+        <button class="cta" id="nextQ">आगे →</button>
+      </div>
+    </div>
+
+    <!-- Personalized Result Box (Hidden by default) -->
+    <div id="resultContent" style="display:none;"></div>
   </div>
 </div>
 
@@ -243,8 +259,8 @@ const T={
 hi:{
 navHome:"होम",navHow:"कैसे काम करता है",navFood:"भोजन",navSeason:"ऋतु",navFaq:"सामान्य प्रश्न",start:"विश्लेषण शुरू करें →",
 eyebrow:"प्रकृति • समय • ऋतु",heroTitle:"आपकी <span>प्रकृति</span> क्या कहती है?",heroLead:"कुछ आसान सवालों के जवाब दें और अपनी प्रकृति, भोजन के समय और मौसम से जुड़ी सामान्य wellness जानकारी को समझें।",startFree:"निःशुल्क विश्लेषण शुरू करें →",howBtn:"यह कैसे काम करता है?",note:"शैक्षिक wellness अनुभव • चिकित्सा निदान नहीं",badge:"संतुलन को समझने की शुरुआत",
-approach:"सरल प्रक्रिया",howTitle:"तीन आसान चरण",step1:"1. आसान सवाल",step1d:"कुछ सरल wellness प्रश्नों के उत्तर दें।",step2:"2. प्रकृति प्रोफाइल",step2d:"वात, पित्त और कफ के बारे में शैक्षिक संकेत देखें।",step3:"3. समय और ऋतु",step3d:"भोजन के समय और मौसम के संदर्भ को समझें。",
-prakritiTitle:"अपनी प्रकृति की तीन भाषाएँ",prakritiLead:"इन्हें निदान नहीं, पारंपरिक wellness अवधारणाओं को समझने के एक lens की तरह देखें।",vata:"गतिशीलता, परिवर्तन और लय से जुड़ी पारंपरिक अवधारणा।",pitta:"ऊष्मा, परिवर्तन और ऊर्जा से जुड़ी पारंपरिक अवधारणा।",kapha:"स्थिरता, पोषण और आधार से जुड़ी पारंपरिक अवधारणा。",
+approach:"सरल प्रक्रिया",howTitle:"तीन आसान चरण",step1:"1. आसान सवाल",step1d:"कुछ सरल wellness प्रश्नों के उत्तर दें।",step2:"2. प्रकृति प्रोफाइल",step2d:"वात, पित्त और कफ के बारे में शैक्षिक संकेत देखें।",step3:"3. समय और ऋतु",step3d:"भोजन के समय और मौसम के संदर्भ को समझें।",
+prakritiTitle:"अपनी प्रकृति की तीन भाषाएँ",prakritiLead:"इन्हें निदान नहीं, पारंपरिक wellness अवधारणाओं को समझने के एक lens की तरह देखें।",vata:"गतिशीलता, परिवर्तन और लय से जुड़ी पारंपरिक अवधारणा।",pitta:"ऊष्मा, परिवर्तन और ऊर्जा से जुड़ी पारंपरिक अवधारणा।",kapha:"स्थिरता, पोषण और आधार से जुड़ी पारंपरिक अवधारणा।",
 chronoTitle:"सिर्फ क्या खाना ही नहीं, कब खाना भी महत्वपूर्ण हो सकता है।",chronoLead:"दिन के अलग समयों को एक educational wellness lens से explore करें।",clockBtn:"सुबह से शुरू करें",morning:"सुबह",afternoon:"दोपहर",evening:"शाम",night:"रात",
 seasonTitle:"छह ऋतुएँ, छह अलग संदर्भ",seasonLead:"भारतीय ऋतु-चक्र को एक सरल wellness education lens से explore करें।",
 foodTitle:"भोजन को सरल तरीके से जानें",foodLead:"यहाँ केवल educational/demo information है; व्यक्तिगत चिकित्सा सलाह नहीं।",food1:"दलिया",food1d:"हल्का breakfast idea.",food2:"चावल",food2d:"सामान्य food education.",food3:"सब्जियाँ",food3d:"रंग और विविधता पर ध्यान।",food4:"फल",food4d:"मौसमी फल explore करें।",
@@ -260,6 +276,7 @@ seasonTitle:"Six seasons, six contexts",seasonLead:"Explore the Indian seasonal 
 foodTitle:"Explore food simply",foodLead:"Demo educational content only; not personal medical advice.",food1:"Porridge",food1d:"A simple breakfast idea.",food2:"Rice",food2d:"General food education.",food3:"Vegetables",food3d:"Focus on variety and color.",food4:"Fruit",food4d:"Explore seasonal fruit.",
 faqTitle:"Frequently asked questions",q1:"Is this a medical diagnosis?",a1:"No. This is an educational wellness experience and does not diagnose disease.",q2:"Should I follow every recommendation?",a2:"No. Treat it as general information and consult a qualified professional for personal concerns.",q3:"Do I need an account?",a3:"Not for this free prototype.",discTitle:"A responsible place to begin.",disc:"This platform provides general wellness education and cultural context. It is not a substitute for diagnosis, treatment or guaranteed health outcomes.",footerText:"Wellness education around Prakriti, food timing and seasons."
 }};
+
 const seasons=[
 ["🌱","वसंत ऋतु","Spring","नई शुरुआत, हल्कापन और प्रकृति में बदलाव का समय।","A season of renewal and change."],
 ["☀️","ग्रीष्म ऋतु","Summer","गर्मी और तेज धूप का मौसम।","A season of heat and strong sunlight."],
@@ -268,62 +285,187 @@ const seasons=[
 ["🌾","हेमंत ऋतु","Pre-Winter","ठंड की ओर बढ़ता अपेक्षाकृत शांत समय।","A cooler transition toward winter."],
 ["❄️","शिशिर ऋतु","Winter","ठंड और विश्राम का पारंपरिक ऋतु-संदर्भ।","A traditional seasonal context of colder days."]
 ];
+
 const qs=[
-["आप सामान्यतः किस तरह की ऊर्जा महसूस करते हैं?","How would you describe your usual energy?"],
-["आपका भोजन करने का ढंग कैसा रहता है?","How would you describe your eating pattern?"],
-["आपकी नींद कैसी रहती है?","How would you describe your sleep?"],
-["आपको किस मौसम का अनुभव अधिक पसंद आता है?","Which season feels most comfortable to you?"],
-["आपका स्वभाव किसके करीब लगता है?","Which description feels closest to your temperament?"],
-["आपकी दिनचर्या कितनी नियमित है?","How regular is your daily routine?"],
-["आपको काम करते समय क्या अधिक पसंद है?","What tends to suit you while working?"],
-["आप बदलाव को कैसे अनुभव करते हैं?","How do you experience change?"],
-["आप आराम कैसे करना पसंद करते हैं?","How do you prefer to unwind?"],
-["आपकी सामान्य भूख कैसी रहती है?","How would you describe your usual appetite?"],
-["आपको किस तरह का वातावरण पसंद है?","What kind of environment do you prefer?"],
-["आप अपने दिन को कैसे व्यवस्थित करते हैं?","How do you usually structure your day?"]
+["आप सामान्यतः किस तरह की ऊर्जा महसूस करते हैं?", "How would you describe your usual energy?"],
+["आपका भोजन करने का ढंग कैसा रहता है?", "How would you describe your eating pattern?"],
+["आपकी नींद कैसी रहती है?", "How would you describe your sleep?"],
+["आपको किस मौसम का अनुभव अधिक पसंद आता है?", "Which season feels most comfortable to you?"],
+["आपका स्वभाव किसके करीब लगता है?", "Which description feels closest to your temperament?"],
+["आपकी दिनचर्या कितनी नियमित है?", "How regular is your daily routine?"],
+["आपको काम करते समय क्या अधिक पसंद है?", "What tends to suit you while working?"],
+["आप बदलाव को कैसे अनुभव करते हैं?", "How do you experience change?"],
+["आप आराम कैसे करना पसंद करते हैं?", "How do you prefer to unwind?"],
+["आपकी सामान्य भूख कैसी रहती है?", "How would you describe your usual appetite?"],
+["आपको किस तरह का वातावरण पसंद है?", "What kind of environment do you prefer?"],
+["आप अपने दिन को कैसे व्यवस्थित करते हैं?", "How do you usually structure your day?"]
 ];
+
 const opts=[
-["हल्की और बदलती","Light and variable","vata"],["तेज और केंद्रित","Strong and focused","pitta"],["स्थिर और शांत","Steady and calm","kapha"]
+["हल्की और बदलती", "Light and variable", "vata"],
+["तेज और केंद्रित", "Strong and focused", "pitta"],
+["स्थिर और शांत", "Steady and calm", "kapha"]
 ];
+
 let lang=localStorage.getItem("pcd-lang")||"hi";
 let theme=localStorage.getItem("pcd-theme")||"light";
-let q=0,answers=[];
-function applyTheme(){document.documentElement.dataset.theme=theme==="dark"?"dark":theme==="white"?"white":"";const icon=theme==="dark"?"●":theme==="white"?"○":"☀";document.querySelectorAll("#themeBtn,#themeBtn2").forEach(b=>b.textContent=icon)}
+let q=0, answers=[];
+
+function applyTheme(){
+  document.documentElement.dataset.theme = theme==="dark"?"dark":theme==="white"?"white":"";
+  const icon = theme==="dark"?"●":theme==="white"?"○":"☀";
+  document.querySelectorAll("#themeBtn,#themeBtn2").forEach(b=>b.textContent=icon);
+}
+
 function applyLang(){
- document.documentElement.lang=lang;
- document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.dataset.i18n;if(T[lang][k])el.textContent=T[lang][k]});
- document.querySelectorAll("[data-i18n-html]").forEach(el=>{const k=el.dataset.i18nHtml;if(T[lang][k])el.innerHTML=T[lang][k]});
- document.querySelectorAll("#langBtn,#langBtn2").forEach(b=>b.textContent=lang==="hi"?"हिंदी":"English");
- renderSeasons(); renderQuestion();
+  document.documentElement.lang=lang;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.dataset.i18n;if(T[lang][k])el.textContent=T[lang][k]});
+  document.querySelectorAll("[data-i18n-html]").forEach(el=>{const k=el.dataset.i18nHtml;if(T[lang][k])el.innerHTML=T[lang][k]});
+  document.querySelectorAll("#langBtn,#langBtn2").forEach(b=>b.textContent=lang==="hi"?"हिंदी":"English");
+  renderSeasons(); 
+  renderQuestion();
 }
-function toggleLang(){lang=lang==="hi"?"en":"hi";localStorage.setItem("pcd-lang",lang);applyLang()}
-function toggleTheme(){theme=theme==="light"?"white":theme==="white"?"dark":"light";localStorage.setItem("pcd-theme",theme);applyTheme()}
-function renderSeasons(){const g=document.getElementById("seasonGrid");g.innerHTML=seasons.map(s=>`<article class="card season-card"><div class="icon">${s[0]}</div><h3>${lang==="hi"?s[1]:s[2]}</h3><div class="small" style="color:rgba(255,255,255,.7)">${lang==="hi"?s[2]:s[1]}</div><p class="small" style="color:rgba(255,255,255,.82)">${lang==="hi"?s[3]:s[4]}</p><button class="secondary" style="padding:8px 12px" onclick="alert('${lang==="hi"?"यह अभी educational demo है।":"This is currently an educational demo."}')">${lang==="hi"?"जानें":"Explore"}</button></article>`).join("")}
+
+function toggleLang(){
+  lang = lang==="hi"?"en":"hi";
+  localStorage.setItem("pcd-lang",lang);
+  applyLang();
+}
+
+function toggleTheme(){
+  theme = theme==="light"?"white":theme==="white"?"dark":"light";
+  localStorage.setItem("pcd-theme",theme);
+  applyTheme();
+}
+
+function renderSeasons(){
+  const g=document.getElementById("seasonGrid");
+  g.innerHTML=seasons.map(s=>`<article class="card season-card"><div class="icon">${s[0]}</div><h3>${lang==="hi"?s[1]:s[2]}</h3><div class="small" style="color:rgba(255,255,255,.7)">${lang==="hi"?s[2]:s[1]}</div><p class="small" style="color:rgba(255,255,255,.82)">${lang==="hi"?s[3]:s[4]}</p><button class="secondary" style="padding:8px 12px" onclick="alert('${lang==="hi"?"यह अभी educational demo है।":"This is currently an educational demo."}')">${lang==="hi"?"जानें":"Explore"}</button></article>`).join("");
+}
+
 function setClock(type){
- const names={morning:[T[lang].morning,lang==="hi"?"दिन की शुरुआत को सरल और सहज रखें।":"Keep the beginning of the day simple and gentle."],afternoon:[T[lang].afternoon,lang==="hi"?"दिन के मध्य में अपने भोजन और ऊर्जा पर ध्यान दें।":"Notice your meal and energy around the middle of the day."],evening:[T[lang].evening,lang==="hi"?"शाम को गति धीरे-धीरे कम करने का समय समझें।":"Let the evening gradually become less stimulating."],night:[T[lang].night,lang==="hi"?"रात को विश्राम और नींद के लिए जगह दें।":"Make space for rest and sleep at night."]};
- document.getElementById("clockTitle").textContent=names[type][0];document.getElementById("clockText").textContent=names[type][1];
+  const names={
+    morning:[T[lang].morning, lang==="hi"?"दिन की शुरुआत को सरल और सहज रखें।":"Keep the beginning of the day simple and gentle."],
+    afternoon:[T[lang].afternoon, lang==="hi"?"दिन के मध्य में अपने भोजन और ऊर्जा पर ध्यान दें।":"Notice your meal and energy around the middle of the day."],
+    evening:[T[lang].evening, lang==="hi"?"शाम को गति धीरे-धीरे कम करने का समय समझें।":"Let the evening gradually become less stimulating."],
+    night:[T[lang].night, lang==="hi"?"रात को विश्राम और नींद के लिए जगह दें।":"Make space for rest and sleep at night."]
+  };
+  document.getElementById("clockTitle").textContent=names[type][0];
+  document.getElementById("clockText").textContent=names[type][1];
 }
+
 function renderQuestion(){
- const title=document.getElementById("qTitle");if(!title)return;
- title.textContent=lang==="hi"?qs[q][0]:qs[q][1];
- document.getElementById("qCount").textContent=`${q+1} / ${qs.length}`;
- document.getElementById("qProgress").style.width=((q+1)/qs.length*100)+"%";
- document.getElementById("options").innerHTML=opts.map((o,i)=>`<button class="option ${answers[q]===o[2]?"selected":""}" onclick="choose('${o[2]}')">${lang==="hi"?o[0]:o[1]}</button>`).join("");
- document.getElementById("prevQ").disabled=q===0;
- document.getElementById("nextQ").textContent=q===qs.length-1?(lang==="hi"?"परिणाम देखें":"See result"):(lang==="hi"?"आगे →":"Next →");
+  const title=document.getElementById("qTitle");
+  if(!title) return;
+  document.getElementById("quizContent").style.display = "block";
+  document.getElementById("resultContent").style.display = "none";
+  document.getElementById("modalEyebrow").textContent = lang==="hi"?"PRAKRITI ANALYZER":"PRAKRITI ANALYZER";
+  
+  title.textContent=lang==="hi"?qs[q][0]:qs[q][1];
+  document.getElementById("qCount").textContent=`${q+1} / ${qs.length}`;
+  document.getElementById("qProgress").style.width=((q+1)/qs.length*100)+"%";
+  document.getElementById("options").innerHTML=opts.map((o,i)=>`<button class="option ${answers[q]===o[2]?"selected":""}" onclick="choose('${o[2]}')">${lang==="hi"?o[0]:o[1]}</button>`).join("");
+  document.getElementById("prevQ").style.display = q===0 ? "none" : "inline-block";
+  document.getElementById("nextQ").textContent=q===qs.length-1?(lang==="hi"?"परिणाम देखें":"See Result"):(lang==="hi"?"आगे →":"Next →");
 }
-function choose(v){answers[q]=v;renderQuestion()}
-function openAnalyzer(){document.getElementById("modal").classList.add("open");q=0;answers=[];renderQuestion()}
-function nextQuestion(){if(!answers[q]){alert(lang==="hi"?"कृपया एक विकल्प चुनें।":"Please choose an option.");return}if(q<qs.length-1){q++;renderQuestion()}else{const count={vata:0,pitta:0,kapha:0};answers.forEach(x=>count[x]++);const best=Object.keys(count).sort((a,b)=>count[b]-count[a])[0];const name={vata:"Vata / वात",pitta:"Pitta / पित्त",kapha:"Kapha / कफ"}[best];alert((lang==="hi"?"आपका demo परिणाम: ":"Your demo result: ")+name+(lang==="hi"?"। यह केवल prototype है और चिकित्सा निदान नहीं है।":" . This is only a prototype and not a medical diagnosis."));document.getElementById("modal").classList.remove("open")}}
-document.getElementById("langBtn").onclick=toggleLang;document.getElementById("langBtn2").onclick=toggleLang;
-document.getElementById("themeBtn").onclick=toggleTheme;document.getElementById("themeBtn2").onclick=toggleTheme;
+
+function choose(v){
+  answers[q]=v;
+  renderQuestion();
+}
+
+function openAnalyzer(){
+  document.getElementById("modal").classList.add("open");
+  q=0;
+  answers=[];
+  renderQuestion();
+}
+
+function nextQuestion(){
+  if(!answers[q]){
+    alert(lang==="hi"?"कृपया एक विकल्प चुनें।":"Please choose an option.");
+    return;
+  }
+  if(q < qs.length-1){
+    q++;
+    renderQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult(){
+  const count={vata:0, pitta:0, kapha:0};
+  answers.forEach(x=>count[x]++);
+  const best=Object.keys(count).sort((a,b)=>count[b]-count[a])[0];
+  
+  const resultsData = {
+    vata: {
+      icon: "🌬️",
+      titleHI: "आपकी प्रधान प्रकृति: वात (Vata)",
+      titleEN: "Your Dominant Prakriti: Vata",
+      descHI: "आपकी प्रवृत्ति में गतिशीलता, रचनात्मकता और ऊर्जा का सुंदर संतुलन है। आपके विचार तेज और नए दृष्टिकोण वाले होते हैं।",
+      descEN: "Your profile reflects natural creativity, alertness, and dynamic energy.",
+      tipHI: "सुझाव: नियमित दिनचर्या, गर्म और ताज़ा भोजन तथा पर्याप्त विश्राम आपके लिए बहुत लाभदायक हो सकता है।",
+      tipEN: "Tip: A consistent daily routine, warm and nourishing meals, and adequate rest support your well-being."
+    },
+    pitta: {
+      icon: "☀️",
+      titleHI: "आपकी प्रधान प्रकृति: पित्त (Pitta)",
+      titleEN: "Your Dominant Prakriti: Pitta",
+      descHI: "आपकी प्रवृत्ति में तीव्र ऊष्मा, नेतृत्व क्षमता और focused दृष्टिकोण झलकता है। आप हर काम को लगन से करते हैं।",
+      descEN: "Your profile reflects strong focus, natural leadership, and dynamic metabolic energy.",
+      tipHI: "सुझाव: शीतलता प्रदान करने वाले आहार, पर्याप्त हाइड्रेशन और मानसिक शांति आपके लिए संतुलन बनाते हैं।",
+      tipEN: "Tip: Cooling foods, proper hydration, and moments of calm help maintain your inner balance."
+    },
+    kapha: {
+      icon: "💧",
+      titleHI: "आपकी प्रधान प्रकृति: कफ (Kapha)",
+      titleEN: "Your Dominant Prakriti: Kapha",
+      descHI: "आपकी प्रवृत्ति में स्थिरता, सहनशीलता, और गहरा पोषण देने वाला शांत स्वभाव शामिल है। आप भरोसेमंद और शांतचित्त हैं।",
+      descEN: "Your profile reflects natural stability, grounded patience, and steady endurance.",
+      tipHI: "सुझाव: हल्का और सुपाच्य भोजन, नियमित सक्रियता (Physical activity) और नई दिनचर्या का अभ्यास आपके लिए उत्तम है।",
+      tipEN: "Tip: Light and warm meals, regular physical movement, and active routines support your daily energy."
+    }
+  };
+
+  const res = resultsData[best];
+  document.getElementById("quizContent").style.display = "none";
+  document.getElementById("modalEyebrow").textContent = lang==="hi"?"आपका व्यक्तिगत परिणाम":"Your Personalized Result";
+  
+  const resDiv = document.getElementById("resultContent");
+  resDiv.style.display = "block";
+  resDiv.innerHTML = `
+    <div class="result-box">
+      <div class="result-icon">${res.icon}</div>
+      <div class="result-title">${lang==="hi"?res.titleHI:res.titleEN}</div>
+      <p class="result-desc">${lang==="hi"?res.descHI:res.descEN}</p>
+      <div class="result-tip">
+        <strong>🌿 ${lang==="hi"?"सुझाव व समझ":"Wellness Insight"}:</strong><br>
+        ${lang==="hi"?res.tipHI:res.tipEN}
+      </div>
+      <p class="small" style="margin-bottom:20px;">${lang==="hi"?"यह परिणाम केवल पारंपरिक शैक्षिक wellness अवधारणाओं पर आधारित है।":"This result is based on traditional educational wellness concepts only."}</p>
+      <button class="cta" onclick="document.getElementById('modal').classList.remove('open')">${lang==="hi"?"धन्यवाद, समझ गया":"Got it, thank you!"}</button>
+    </div>
+  `;
+}
+
+document.getElementById("langBtn").onclick=toggleLang;
+document.getElementById("langBtn2").onclick=toggleLang;
+document.getElementById("themeBtn").onclick=toggleTheme;
+document.getElementById("themeBtn2").onclick=toggleTheme;
 document.getElementById("menuBtn").onclick=()=>document.getElementById("drawer").classList.toggle("open");
-document.getElementById("startBtn").onclick=openAnalyzer;document.getElementById("heroStart").onclick=openAnalyzer;
+document.getElementById("startBtn").onclick=openAnalyzer;
+document.getElementById("heroStart").onclick=openAnalyzer;
 document.getElementById("closeModal").onclick=()=>document.getElementById("modal").classList.remove("open");
-document.getElementById("nextQ").onclick=nextQuestion;document.getElementById("prevQ").onclick=()=>{if(q>0){q--;renderQuestion()}};
+document.getElementById("nextQ").onclick=nextQuestion;
+document.getElementById("prevQ").onclick=()=>{if(q>0){q--;renderQuestion()}};
 document.querySelectorAll(".clock button").forEach(b=>b.onclick=()=>setClock(b.dataset.time));
 document.getElementById("clockReset").onclick=()=>setClock("morning");
-applyTheme();applyLang();
+
+applyTheme();
+applyLang();
+
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}
 </script>
 </body>
